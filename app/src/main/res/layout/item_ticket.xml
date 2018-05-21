@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/ticket_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="24dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/ticket_item_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="외출"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textSize="30sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="시작 시간"/>
+
+                    <TextView
+                        android:id="@+id/ticket_item_out_date_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="yyyy-MM-dd hh:mm"
+                        android:textColor="#222222"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="만료 시간"/>
+
+                    <TextView
+                        android:id="@+id/ticket_item_in_date_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="yyyy-MM-dd hh:mm"
+                        android:textColor="#222222"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="사유"/>
+
+                <TextView
+                    android:id="@+id/ticket_item_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡팡"
+                    android:textColor="#222222"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

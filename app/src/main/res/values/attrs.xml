@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <declare-styleable name="MealButton">
+        <attr name="mealType" format="string"/>
+    </declare-styleable>
+    <declare-styleable name="OutRadioButton">
+        <attr name="outType" format="enum">
+            <enum name="Short" value="0"/>
+            <enum name="Long" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>

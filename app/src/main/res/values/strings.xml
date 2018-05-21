@@ -1,0 +1,44 @@
+<resources>
+    <string name="login">로그인</string>
+    <string name="register">회원가입</string>
+
+    <string name="app_name">Flow</string>
+    <string name="tab_text_1">급식</string>
+    <string name="tab_text_2">외출/외박</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_login">로그인</string>
+    <string name="male">남성</string>
+    <string name="female">여성</string>
+    <string name="breakfast">아침</string>
+    <string name="lunch">점심</string>
+    <string name="dinner">저녁</string>
+    <string name="short_out">외출</string>
+    <string name="long_out">외박</string>
+    <string name="apply">신청</string>
+    <string name="outing_date">외출 날짜</string>
+    <string name="outing_time">외출 시간</string>
+    <string name="in_date">복귀 날짜</string>
+    <string name="in_time">복귀 시간</string>
+    <string name="select_date">날짜 선택</string>
+
+    <!-- hints -->
+    <string name="hint_number">번호</string>
+    <string name="hint_cellphone">휴대폰 번호</string>
+    <string name="hint_email">이메일</string>
+    <string name="hint_password">비밀번호</string>
+    <string name="hint_re_password">비밀번호 확인</string>
+    <string name="email_more_hint">example@dgsw.hs.kr 형식의 이메일</string>
+    <string name="password_more_hint">비밀번호는 8~16자리, 영문대소문자, 숫자, 특수문자 필수</string>
+
+    <!-- Strings related to login -->
+    <string name="sign_up">No account yet? Create One</string>
+
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_meal">급식</string>
+    <string name="title_out">외출/외박</string>
+    <string name="title_notifications">공지</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
