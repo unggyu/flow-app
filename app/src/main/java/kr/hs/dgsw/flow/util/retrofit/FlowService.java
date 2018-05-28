@@ -1,4 +1,4 @@
-package kr.hs.dgsw.flow.util;
+package kr.hs.dgsw.flow.util.retrofit;
 
 import kr.hs.dgsw.flow.view.login.model.body.LoginRequestBody;
 import kr.hs.dgsw.flow.view.login.model.body.LoginResponseBody;

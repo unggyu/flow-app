@@ -10,9 +10,13 @@ public class LoginRequestBody {
     @SerializedName("pw")
     private String password;
 
-    public LoginRequestBody(String email, String password) {
+    @SerializedName("registration_token")
+    private String registrationToken;
+
+    public LoginRequestBody(String email, String password, String registrationToken) {
         this.email = email;
         this.password = password;
+        this.registrationToken = registrationToken;
     }
 
     public String getEmail() {
@@ -31,11 +35,20 @@ public class LoginRequestBody {
         this.password = password;
     }
 
+    public String getRegistrationToken() {
+        return registrationToken;
+    }
+
+    public void setRegistrationToken(String registrationToken) {
+        this.registrationToken = registrationToken;
+    }
+
     @Override
     public String toString() {
         return "LoginRequestBody{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", registrationToken='" + registrationToken + '\'' +
                 '}';
     }
 }

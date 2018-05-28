@@ -1,4 +1,4 @@
-package kr.hs.dgsw.flow.util;
+package kr.hs.dgsw.flow.util.retrofit;
 
 public class FlowUtils {
     public static final String BASE_URL = "http://flow.cafe24app.com";

@@ -8,8 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import io.realm.Realm;
 import kr.hs.dgsw.flow.R;
-import kr.hs.dgsw.flow.data.sqlite.TokenHelper;
+import kr.hs.dgsw.flow.data.realm.token.TokenHelper;
 import kr.hs.dgsw.flow.view.login.LoginActivity;
 import kr.hs.dgsw.flow.view.meal.MealFragment;
 import kr.hs.dgsw.flow.view.notice.NoticeFragment;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity
         OutFragment.OnFragmentInteractionListener,
         NoticeFragment.OnFragmentInteractionListener {
 
+    // private TokenHelper mTokenHelper;
     private TokenHelper mTokenHelper;
 
     @Override
@@ -27,10 +29,21 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTokenHelper = new TokenHelper(getApplicationContext());
+        Realm.init(this);
+
+        // mTokenHelper = new TokenHelper(getApplicationContext());
+        mTokenHelper = new TokenHelper(this);
 
         /* 토큰이 없다면 로그인 엑티비티로 이동 */
-        if (mTokenHelper.getLastToken() == null) {
+        /*
+        if (mTokenHelper.getLast() == null) {
+            navigateToLogin();
+            finish();
+            return;
+        }
+        */
+
+        if (mTokenHelper.getLast() == null) {
             navigateToLogin();
             finish();
             return;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import kr.hs.dgsw.flow.data.model.EditData;
-import kr.hs.dgsw.flow.data.sqlite.TokenHelper;
+import kr.hs.dgsw.flow.data.realm.token.TokenHelper;
 import kr.hs.dgsw.flow.view.login.model.LoginData;
 import kr.hs.dgsw.flow.view.login.model.body.LoginRequestBody;
 import kr.hs.dgsw.flow.view.login.model.body.LoginResponseBody;
@@ -16,12 +16,9 @@ public class LoginPresenterImpl implements ILoginContract.Presenter {
 
     private LoginData mLoginData;
 
-    private TokenHelper mTokenHelper;
-
     public LoginPresenterImpl(@NonNull ILoginContract.View view, Context context) {
         this.mView = view;
-        this.mLoginData = LoginData.getInstance();
-        this.mTokenHelper = new TokenHelper(context);
+        this.mLoginData = new LoginData(context);
     }
 
     @Override
@@ -101,7 +98,11 @@ public class LoginPresenterImpl implements ILoginContract.Presenter {
                     mView.showMessageToast(responseBody.getMessage());
                     if (responseBody.getStatus() == 200) {
                         String token = responseBody.getData().getToken();
-                        mTokenHelper.insertToken(token);
+
+                        /* 로컬DB에 저장 */
+                        mLoginData.insertToken(token);
+
+                        /* 메인 엑티비티로 이동 */
                         mView.navigateToMain();
                     }
                 } else {

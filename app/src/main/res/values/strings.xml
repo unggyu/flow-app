@@ -16,8 +16,8 @@
     <string name="short_out">외출</string>
     <string name="long_out">외박</string>
     <string name="apply">신청</string>
-    <string name="outing_date">외출 날짜</string>
-    <string name="outing_time">외출 시간</string>
+    <string name="outing_date">시작 날짜</string>
+    <string name="outing_time">시작 시간</string>
     <string name="in_date">복귀 날짜</string>
     <string name="in_time">복귀 시간</string>
     <string name="select_date">날짜 선택</string>

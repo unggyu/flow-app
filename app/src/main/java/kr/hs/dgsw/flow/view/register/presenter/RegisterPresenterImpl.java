@@ -186,10 +186,10 @@ public class RegisterPresenterImpl implements IRegisterContract.Presenter {
         mRegisterData.callSignUp(requestBody, new RegisterData.RegisterCallback() {
             @Override
             public void onResponse(Response<RegisterResponseBody> response) {
+                mView.showProgress(false);
                 if (response.isSuccessful()) {
                     mView.showMessageToast(response.body().getMessage());
                     if (response.body().getStatus() == 200) {
-                        mView.showProgress(false);
                         mView.navigateToLogin();
                     }
                 } else {

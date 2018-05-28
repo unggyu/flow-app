@@ -1,4 +1,4 @@
-package kr.hs.dgsw.flow.util;
+package kr.hs.dgsw.flow.util.retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

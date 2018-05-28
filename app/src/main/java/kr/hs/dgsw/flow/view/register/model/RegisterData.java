@@ -3,7 +3,7 @@ package kr.hs.dgsw.flow.view.register.model;
 import java.util.regex.Pattern;
 
 import kr.hs.dgsw.flow.data.model.EditData;
-import kr.hs.dgsw.flow.util.FlowUtils;
+import kr.hs.dgsw.flow.util.retrofit.FlowUtils;
 import kr.hs.dgsw.flow.view.register.model.body.RegisterRequestBody;
 import kr.hs.dgsw.flow.view.register.model.body.RegisterResponseBody;
 import retrofit2.Call;
