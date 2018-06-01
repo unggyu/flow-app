@@ -2,10 +2,14 @@ package kr.hs.dgsw.flow.view.login.model;
 
 import android.content.Context;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import java.util.regex.Pattern;
 
 import kr.hs.dgsw.flow.data.model.EditData;
-import kr.hs.dgsw.flow.data.realm.token.TokenHelper;
+import kr.hs.dgsw.flow.data.realm.loginhistory.LoginHistoryHelper;
+import kr.hs.dgsw.flow.data.realm.user.UserHelper;
+import kr.hs.dgsw.flow.data.realm.user.model.User;
 import kr.hs.dgsw.flow.util.retrofit.FlowUtils;
 import kr.hs.dgsw.flow.view.login.model.body.LoginRequestBody;
 import kr.hs.dgsw.flow.view.login.model.body.LoginResponseBody;
@@ -19,7 +23,8 @@ public class LoginData {
     public static final String STR_PASSWORD_EMPTY_ERROR = "비밀번호를 입력해주세요";
     public static final String STR_PASSWORD_ERROR = "비밀번호 포맷형식으로 입력해주세요";
 
-    private TokenHelper mTokenHelper;
+    private UserHelper mUserHelper;
+    private LoginHistoryHelper mLoginHistoryHelper;
 
     private EditData email;
     private EditData password;
@@ -28,7 +33,8 @@ public class LoginData {
         email = new EditData();
         password = new EditData();
 
-        mTokenHelper = new TokenHelper(context);
+        mUserHelper = new UserHelper(context);
+        mLoginHistoryHelper = new LoginHistoryHelper(context);
     }
 
     public EditData getEmail() {
@@ -40,7 +46,8 @@ public class LoginData {
     }
 
     public LoginRequestBody makeLoginRequestBody() {
-        return new LoginRequestBody(email.getData(), password.getData(), "ghfhffhffh");
+        return new LoginRequestBody(email.getData(), password.getData(),
+                FirebaseInstanceId.getInstance().getToken());
     }
 
     public boolean isDataValid() {
@@ -57,8 +64,19 @@ public class LoginData {
         return passwordPattern.matcher(password).find();
     }
 
-    public void insertToken(String token) {
-        mTokenHelper.insert(token);
+    public void insertOrUpdateUser(String email, String password, String token) {
+        if (mUserHelper.getUserByEmail(email) == null) {
+            mUserHelper.insertUser(email, password, token);
+        } else {
+            mUserHelper.updateUser(email, password, token);
+        }
+    }
+
+    public void insertLoggedInHistory(String email) {
+        User user = mUserHelper.getUserByEmail(email);
+        if (user != null) {
+            mLoginHistoryHelper.insertLoggedInUser(user);
+        }
     }
 
     public void callSignIn(LoginRequestBody requestBody, LoginCallback callback) {

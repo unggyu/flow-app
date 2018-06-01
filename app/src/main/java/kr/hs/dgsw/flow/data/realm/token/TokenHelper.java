@@ -5,22 +5,13 @@ import android.content.Context;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import kr.hs.dgsw.flow.data.realm.RealmHelper;
 import kr.hs.dgsw.flow.data.realm.token.model.Token;
 
-public class TokenHelper {
-    private Realm mRealm;
+public class TokenHelper extends RealmHelper {
 
     public TokenHelper(Context context) {
-        Realm.init(context);
-        RealmConfiguration configuration =
-                new RealmConfiguration.Builder()
-                        .deleteRealmIfMigrationNeeded()
-                        .build();
-        mRealm = Realm.getInstance(configuration);
-    }
-
-    public void destroy() {
-        mRealm.close();
+        super(context);
     }
 
     /**
@@ -31,13 +22,15 @@ public class TokenHelper {
         Token tokenObj = new Token();
         tokenObj.setToken(token);
 
-        mRealm.beginTransaction();
-        mRealm.copyToRealm(tokenObj);
-        mRealm.commitTransaction();
+        Realm realm = getRealm();
+
+        realm.beginTransaction();
+        realm.copyToRealm(tokenObj);
+        realm.commitTransaction();
     }
 
     public String getLast() {
-        RealmResults<Token> tokens = mRealm.where(Token.class).findAll();
+        RealmResults<Token> tokens = getRealm().where(Token.class).findAll();
         if (tokens.size() == 0) {
             return null;
         }

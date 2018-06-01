@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import io.realm.Realm;
 import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.data.realm.loginhistory.LoginHistoryHelper;
+import kr.hs.dgsw.flow.data.realm.loginhistory.model.LoginHistory;
 import kr.hs.dgsw.flow.data.realm.token.TokenHelper;
 import kr.hs.dgsw.flow.view.login.LoginActivity;
 import kr.hs.dgsw.flow.view.meal.MealFragment;
@@ -21,29 +23,17 @@ public class MainActivity extends AppCompatActivity
         OutFragment.OnFragmentInteractionListener,
         NoticeFragment.OnFragmentInteractionListener {
 
-    // private TokenHelper mTokenHelper;
-    private TokenHelper mTokenHelper;
+    private LoginHistoryHelper mLoginHistoryHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Realm.init(this);
+        mLoginHistoryHelper = new LoginHistoryHelper(this);
 
-        // mTokenHelper = new TokenHelper(getApplicationContext());
-        mTokenHelper = new TokenHelper(this);
-
-        /* 토큰이 없다면 로그인 엑티비티로 이동 */
-        /*
-        if (mTokenHelper.getLast() == null) {
-            navigateToLogin();
-            finish();
-            return;
-        }
-        */
-
-        if (mTokenHelper.getLast() == null) {
+        // 로그인 내역이 없다면 로그인 액티비티로 이동
+        if (mLoginHistoryHelper.getSize() == 0) {
             navigateToLogin();
             finish();
             return;
@@ -85,7 +75,5 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
+    public void onFragmentInteraction(Uri uri) { }
 }

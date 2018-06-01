@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    xmlns:card="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
         android:id="@+id/ticket_item"
@@ -13,7 +14,10 @@
             android:layout_height="match_parent"
             android:paddingHorizontal="16dp"
             android:paddingVertical="24dp"
-            android:orientation="vertical">
+            android:layout_marginVertical="4dp"
+            android:layout_marginHorizontal="2dp"
+            android:orientation="vertical"
+            card:cardCornerRadius="5dp">
 
             <TextView
                 android:id="@+id/ticket_item_type"
@@ -23,6 +27,27 @@
                 android:text="외출"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textSize="30sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="상태" />
+
+                <TextView
+                    android:id="@+id/ticket_item_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="승인"
+                    android:textColor="#222222"
+                    android:textSize="20sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

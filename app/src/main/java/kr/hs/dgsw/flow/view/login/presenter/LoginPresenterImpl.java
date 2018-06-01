@@ -99,10 +99,17 @@ public class LoginPresenterImpl implements ILoginContract.Presenter {
                     if (responseBody.getStatus() == 200) {
                         String token = responseBody.getData().getToken();
 
-                        /* 로컬DB에 저장 */
-                        mLoginData.insertToken(token);
+                        // 로컬DB에 User 업뎃 or 삽입
+                        mLoginData.insertOrUpdateUser(
+                                requestBody.getEmail(),
+                                requestBody.getPassword(),
+                                token
+                        );
 
-                        /* 메인 엑티비티로 이동 */
+                        // 로그인 기록 저장
+                        mLoginData.insertLoggedInHistory(requestBody.getEmail());
+
+                        // 메인 엑티비티로 이동
                         mView.navigateToMain();
                     }
                 } else {
