@@ -13,6 +13,8 @@ import android.support.v4.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
+
 import kr.hs.dgsw.flow.R;
 import kr.hs.dgsw.flow.data.realm.loginhistory.LoginHistoryHelper;
 import kr.hs.dgsw.flow.data.realm.out.OutHelper;
@@ -24,15 +26,23 @@ public class OutMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
-        if (notification != null) {
-            sendNotification(notification.getTitle(), notification.getBody());
+        Map<String, String> data = remoteMessage.getData();
+        if (notification != null && data != null) {
+            sendNotification(notification.getTitle(), notification.getBody(), data.get("type"));
         }
     }
 
-    private void sendNotification(String title, String body) {
-        Intent intent = new Intent(this, TicketActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("isNeedDatabaseUpdate", true);
+    private void sendNotification(String title, String body, String type) {
+        Intent intent = null;
+        if (type.equals("go_out") || type.equals("sleep_out")) {
+            intent = new Intent(this, TicketActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("isNeedDatabaseUpdate", true);
+        } else if (type.equals("notice")) {
+            intent = new Intent(this, TicketActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("isNeedDatabaseUpdate", true);
+        }
         PendingIntent pendingIntent = PendingIntent
                 .getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 

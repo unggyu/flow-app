@@ -12,6 +12,7 @@
 bin/
 gen/
 out/
+!view/out/
 
 # Gradle files
 .gradle/
