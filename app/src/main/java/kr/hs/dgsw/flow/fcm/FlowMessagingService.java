@@ -19,30 +19,37 @@ import kr.hs.dgsw.flow.R;
 import kr.hs.dgsw.flow.data.realm.loginhistory.LoginHistoryHelper;
 import kr.hs.dgsw.flow.data.realm.out.OutHelper;
 import kr.hs.dgsw.flow.data.realm.user.model.User;
+import kr.hs.dgsw.flow.service.OutRealmService;
 import kr.hs.dgsw.flow.view.ticket.TicketActivity;
 
-public class OutMessagingService extends FirebaseMessagingService {
+public class FlowMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         Map<String, String> data = remoteMessage.getData();
-        if (notification != null && data != null) {
-            sendNotification(notification.getTitle(), notification.getBody(), data.get("type"));
+        if (notification != null && data != null && !data.isEmpty()) {
+            sendNotification(notification.getTitle(), notification.getBody(), data);
         }
     }
 
-    private void sendNotification(String title, String body, String type) {
+    private void sendNotification(String title, String body, Map<String, String> data) {
         Intent intent = null;
+        String type = data.get("type");
         if (type.equals("go_out") || type.equals("sleep_out")) {
+            // 외출/외박인 경우 외출/외박 액티비티로 이동
             intent = new Intent(this, TicketActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("isNeedDatabaseUpdate", true);
+
+            Intent outIntent = new Intent(this, OutRealmService.class);
+            outIntent.putExtra("serverIdx", Integer.parseInt(data.get("idx")));
+            startService(outIntent);
         } else if (type.equals("notice")) {
+            //TODO: 공지일 때 공지 액티비티로 이동
             intent = new Intent(this, TicketActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("isNeedDatabaseUpdate", true);
         }
+
         PendingIntent pendingIntent = PendingIntent
                 .getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
@@ -50,7 +57,7 @@ public class OutMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)

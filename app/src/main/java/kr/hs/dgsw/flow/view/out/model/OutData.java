@@ -187,6 +187,7 @@ public class OutData {
         if (user != null) {
             mOutHelper.insertOut(
                     user,
+                    responseOut.getIdx(),
                     outType == OutType.SHORT ? 0 : 1,
                     responseOut.getStartTime(),
                     responseOut.getEndTime(),

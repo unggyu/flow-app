@@ -34,16 +34,22 @@
         <activity
             android:name=".view.login.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".view.ticket.TicketActivity" />
+        <activity
+            android:name=".view.ticket.TicketActivity"
+            android:label="@string/out_history"/>
 
         <!-- Firebase Services -->
 
         <service
-            android:name=".fcm.OutMessagingService">
+            android:name=".fcm.FlowMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+
+        <service
+            android:enabled="true"
+            android:name=".service.OutRealmService"/>
     </application>
 
 </manifest>

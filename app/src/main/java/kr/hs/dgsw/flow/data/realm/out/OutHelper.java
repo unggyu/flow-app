@@ -37,6 +37,7 @@ public class OutHelper extends RealmHelper {
     }
 
     public void insertOut(User user,
+                          int serverIdx,
                           int outType,
                           String outDateTime,
                           String inDateTime,
@@ -44,6 +45,7 @@ public class OutHelper extends RealmHelper {
         getRealm().executeTransaction(realm -> {
             Out out = realm.createObject(Out.class, getNextId(Out.class));
             out.setUser(user);
+            out.setServerIdx(serverIdx);
             out.setOutType(outType);
             out.setStatus(0);
             out.setOutDateTime(outDateTime);
@@ -52,14 +54,19 @@ public class OutHelper extends RealmHelper {
         });
     }
 
-    public void updateLastOutStatusByUserId(int userId, int status) {
+    public void updateOutStatusByServerIdx(int serverIdx, int status) {
         getRealm().executeTransaction(realm -> {
             Out out = getRealm()
                     .where(Out.class)
-                    .equalTo("user.id", userId)
-                    .findAll()
-                    .last();
+                    .equalTo("serverIdx", serverIdx)
+                    .findFirst();
             out.setStatus(status);
+        });
+    }
+
+    public void deleteAll() {
+        getRealm().executeTransaction(realm -> {
+            realm.where(Out.class).findAll().deleteAllFromRealm();
         });
     }
 }

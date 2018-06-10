@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.view.main.MainActivity;
 
 public class NoticeFragment extends Fragment {
 
@@ -49,6 +50,12 @@ public class NoticeFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setActionBarTitle("공지");
     }
 
     @Override

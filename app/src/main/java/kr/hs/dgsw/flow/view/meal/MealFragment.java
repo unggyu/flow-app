@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.view.main.MainActivity;
 import kr.hs.dgsw.flow.view.meal.custom.MealButton;
 import kr.hs.dgsw.flow.view.meal.presenter.IMealContract;
 import kr.hs.dgsw.flow.view.meal.custom.MealDateTextView;
@@ -96,6 +97,12 @@ public class MealFragment extends Fragment implements IMealContract.View {
         } else {
             mPresenter.loadViewState();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setActionBarTitle("급식");
     }
 
     @Override

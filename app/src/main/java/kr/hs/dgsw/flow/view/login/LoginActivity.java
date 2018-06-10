@@ -152,7 +152,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginContract.V
     @Override
     public void navigateToMain() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        this.startActivity(intent);
-        this.finish();
+        startActivity(intent);
+        finish();
     }
 }

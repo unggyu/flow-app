@@ -7,15 +7,23 @@
     <android.support.v7.widget.CardView
         android:id="@+id/ticket_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        card:cardCornerRadius="8dp"
+        card:cardElevation="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="24dp"
-            android:layout_marginVertical="4dp"
-            android:layout_marginHorizontal="2dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
             android:orientation="vertical"
             card:cardCornerRadius="5dp">
 

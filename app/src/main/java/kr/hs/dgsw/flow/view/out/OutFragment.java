@@ -22,7 +22,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import kr.hs.dgsw.flow.R;
-import kr.hs.dgsw.flow.fcm.OutMessagingService;
+import kr.hs.dgsw.flow.fcm.FlowMessagingService;
+import kr.hs.dgsw.flow.view.main.MainActivity;
 import kr.hs.dgsw.flow.view.out.custom.OutRadioButton;
 import kr.hs.dgsw.flow.view.out.model.Enum.OutType;
 import kr.hs.dgsw.flow.view.out.presenter.IOutContract;
@@ -89,6 +90,12 @@ public class OutFragment extends Fragment implements IOutContract.View {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setActionBarTitle("외출/외박");
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -145,7 +152,9 @@ public class OutFragment extends Fragment implements IOutContract.View {
 
     @OnTextChanged(value = R.id.out_reason_text, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     public void afterReasonTextInput(Editable editable) {
-        mPresenter.validReason(editable.toString());
+        if (mPresenter != null) {
+            mPresenter.validReason(editable.toString());
+        }
     }
 
     @Override
@@ -212,7 +221,7 @@ public class OutFragment extends Fragment implements IOutContract.View {
 
     @Override
     public void startOutMessagingService() {
-        Intent intent = new Intent(getContext(), OutMessagingService.class);
+        Intent intent = new Intent(getContext(), FlowMessagingService.class);
         getContext().startService(intent);
     }
 

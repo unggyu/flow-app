@@ -7,6 +7,7 @@ import kr.hs.dgsw.flow.data.realm.user.model.User;
 public class Out extends RealmObject {
     @PrimaryKey
     private int id;
+    private int serverIdx; // 서버에 있는 idx
     private int outType; // 0: OutType.SHORT, 1: OutType.LONG
     private int status; // 0: 대기중, 1: 승인됨, 2: 거절됨
     private String outDateTime;
@@ -20,6 +21,14 @@ public class Out extends RealmObject {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getServerIdx() {
+        return serverIdx;
+    }
+
+    public void setServerIdx(int serverIdx) {
+        this.serverIdx = serverIdx;
     }
 
     public int getOutType() {
