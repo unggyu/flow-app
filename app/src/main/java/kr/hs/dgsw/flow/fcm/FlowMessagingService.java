@@ -20,6 +20,7 @@ import kr.hs.dgsw.flow.data.realm.loginhistory.LoginHistoryHelper;
 import kr.hs.dgsw.flow.data.realm.out.OutHelper;
 import kr.hs.dgsw.flow.data.realm.user.model.User;
 import kr.hs.dgsw.flow.service.OutRealmService;
+import kr.hs.dgsw.flow.view.main.MainActivity;
 import kr.hs.dgsw.flow.view.ticket.TicketActivity;
 
 public class FlowMessagingService extends FirebaseMessagingService {
@@ -45,8 +46,8 @@ public class FlowMessagingService extends FirebaseMessagingService {
             outIntent.putExtra("serverIdx", Integer.parseInt(data.get("idx")));
             startService(outIntent);
         } else if (type.equals("notice")) {
-            //TODO: 공지일 때 공지 액티비티로 이동
-            intent = new Intent(this, TicketActivity.class);
+            //TODO: 공지일 때 공지 프래그먼트로 이동
+            intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
 
