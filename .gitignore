@@ -47,7 +47,7 @@ captures/
 .externalNativeBuild
 
 # Google Services (e.g. APIs or Firebase)
-google-services.json
+# google-services.json ?? 이걸 왜 제외시키냐??
 
 #Freeline
 freeline.py
