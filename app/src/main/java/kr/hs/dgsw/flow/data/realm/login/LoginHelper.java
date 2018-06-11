@@ -7,7 +7,7 @@ import kr.hs.dgsw.flow.data.realm.login.model.Login;
 import kr.hs.dgsw.flow.data.realm.user.model.User;
 
 /**
- * 이 DB는 로그인 하고있는 유저를 관리합니다.
+ * 이 DB는 로그인 되어있는 유저를 관리합니다.
  */
 public class LoginHelper extends RealmHelper {
     public LoginHelper(Context context) {
@@ -15,7 +15,6 @@ public class LoginHelper extends RealmHelper {
     }
 
     public boolean isLoggedIn() {
-        int asdf = getRealm().where(Login.class).findAll().size();
         return getRealm().where(Login.class).findAll().size() > 0;
     }
 
