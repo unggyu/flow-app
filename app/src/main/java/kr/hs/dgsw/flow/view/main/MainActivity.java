@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity
         mLoginHelper = new LoginHelper(this);
 
         // 로그인 내역이 없다면 로그인 액티비티로 이동
+        if (!mLoginHelper.isLoggedIn()) {
             navigateToLogin();
             finish();
             return;
