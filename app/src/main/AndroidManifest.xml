@@ -49,6 +49,12 @@
         </service>
 
         <service
+            android:name=".util.fcm.FlowFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
             android:enabled="true"
             android:name=".util.service.OutRealmService"/>
     </application>

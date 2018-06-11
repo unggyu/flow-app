@@ -5,25 +5,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 import kr.hs.dgsw.flow.R;
-import kr.hs.dgsw.flow.data.realm.loginhistory.LoginHistoryHelper;
-import kr.hs.dgsw.flow.data.realm.loginhistory.model.LoginHistory;
-import kr.hs.dgsw.flow.data.realm.out.OutHelper;
+import kr.hs.dgsw.flow.data.realm.login.LoginHelper;
 import kr.hs.dgsw.flow.data.realm.out.model.Out;
-import kr.hs.dgsw.flow.data.realm.token.TokenHelper;
-import kr.hs.dgsw.flow.data.realm.user.UserHelper;
 import kr.hs.dgsw.flow.view.login.LoginActivity;
 import kr.hs.dgsw.flow.view.meal.MealFragment;
 import kr.hs.dgsw.flow.view.notice.NoticeFragment;
@@ -39,7 +32,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.navigation)
     public BottomNavigationView mNavigationView;
 
-    private LoginHistoryHelper mLoginHistoryHelper;
+    private LoginHelper mLoginHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +41,9 @@ public class MainActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
-        mLoginHistoryHelper = new LoginHistoryHelper(this);
+        mLoginHelper = new LoginHelper(this);
 
         // 로그인 내역이 없다면 로그인 액티비티로 이동
-        if (mLoginHistoryHelper.getSize() == 0) {
             navigateToLogin();
             finish();
             return;

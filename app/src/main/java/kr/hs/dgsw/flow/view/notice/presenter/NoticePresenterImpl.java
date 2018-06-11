@@ -2,12 +2,11 @@ package kr.hs.dgsw.flow.view.notice.presenter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import kr.hs.dgsw.flow.data.realm.loginhistory.LoginHistoryHelper;
+import kr.hs.dgsw.flow.data.realm.login.LoginHelper;
 import kr.hs.dgsw.flow.data.realm.user.model.User;
 import kr.hs.dgsw.flow.util.retrofit.FlowUtils;
 import kr.hs.dgsw.flow.view.notice.adapter.INoticeAdapterContract;
@@ -25,11 +24,11 @@ public class NoticePresenterImpl implements INoticeContract.Presenter {
     private INoticeAdapterContract.View mAdapterView;
     private INoticeAdapterContract.Model mAdapterModel;
 
-    private LoginHistoryHelper mLoginHistoryHelper;
+    private LoginHelper mLoginHelper;
 
     public NoticePresenterImpl(Context context, @NonNull INoticeContract.View view) {
-        mLoginHistoryHelper = new LoginHistoryHelper(context);
         mView = view;
+        mLoginHelper = new LoginHelper(context);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class NoticePresenterImpl implements INoticeContract.Presenter {
 
     @Override
     public void loadItems(final boolean isClear) {
-        User loggedUser = mLoginHistoryHelper.getLastLoggedInUser();
+        User loggedUser = mLoginHelper.getLoggedUser();
         mView.showProgress(true);
         Call<NoticeResponseBody> call = FlowUtils.getFlowService().getNotices(loggedUser.getToken());
         call.enqueue(new Callback<NoticeResponseBody>() {

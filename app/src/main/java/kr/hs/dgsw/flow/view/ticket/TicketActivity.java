@@ -13,7 +13,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kr.hs.dgsw.flow.R;
-import kr.hs.dgsw.flow.data.realm.loginhistory.LoginHistoryHelper;
+import kr.hs.dgsw.flow.data.realm.login.LoginHelper;
 import kr.hs.dgsw.flow.data.realm.out.OutHelper;
 import kr.hs.dgsw.flow.data.realm.out.model.Out;
 import kr.hs.dgsw.flow.data.realm.user.model.User;
@@ -25,7 +25,7 @@ public class TicketActivity extends AppCompatActivity {
 
     private TicketAdapter mTicketAdapter;
 
-    private LoginHistoryHelper mLoginHistoryHelper;
+    private LoginHelper mLoginHelper;
     private OutHelper mOutHelper;
 
     @Override
@@ -35,10 +35,10 @@ public class TicketActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        mLoginHistoryHelper = new LoginHistoryHelper(this);
+        mLoginHelper = new LoginHelper(this);
         mOutHelper = new OutHelper(this);
 
-        User loggedInUser = mLoginHistoryHelper.getLastLoggedInUser();
+        User loggedInUser = mLoginHelper.getLoggedUser();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

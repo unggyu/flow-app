@@ -2,14 +2,13 @@ package kr.hs.dgsw.flow.view.login.model;
 
 import android.content.Context;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-
 import java.util.regex.Pattern;
 
 import kr.hs.dgsw.flow.data.model.EditData;
-import kr.hs.dgsw.flow.data.realm.loginhistory.LoginHistoryHelper;
+import kr.hs.dgsw.flow.data.realm.login.LoginHelper;
 import kr.hs.dgsw.flow.data.realm.user.UserHelper;
 import kr.hs.dgsw.flow.data.realm.user.model.User;
+import kr.hs.dgsw.flow.util.fcm.FlowFirebaseInstanceIDService;
 import kr.hs.dgsw.flow.util.retrofit.FlowUtils;
 import kr.hs.dgsw.flow.view.login.model.body.LoginRequestBody;
 import kr.hs.dgsw.flow.view.login.model.body.LoginResponseBody;
@@ -24,7 +23,7 @@ public class LoginData {
     public static final String STR_PASSWORD_ERROR = "비밀번호 포맷형식으로 입력해주세요";
 
     private UserHelper mUserHelper;
-    private LoginHistoryHelper mLoginHistoryHelper;
+    private LoginHelper mLoginHelper;
 
     private EditData email;
     private EditData password;
@@ -34,7 +33,7 @@ public class LoginData {
         password = new EditData();
 
         mUserHelper = new UserHelper(context);
-        mLoginHistoryHelper = new LoginHistoryHelper(context);
+        mLoginHelper = new LoginHelper(context);
     }
 
     public EditData getEmail() {
@@ -47,7 +46,7 @@ public class LoginData {
 
     public LoginRequestBody makeLoginRequestBody() {
         return new LoginRequestBody(email.getData(), password.getData(),
-                FirebaseInstanceId.getInstance().getToken());
+                FlowFirebaseInstanceIDService.getToken());
     }
 
     public boolean isDataValid() {
@@ -72,11 +71,13 @@ public class LoginData {
         }
     }
 
-    public void insertLoggedInHistory(String email) {
+    public boolean insertLogin(String email) {
         User user = mUserHelper.getUserByEmail(email);
         if (user != null) {
-            mLoginHistoryHelper.insertLoggedInUser(user);
+            mLoginHelper.Login(user);
+            return true;
         }
+        return false;
     }
 
     public void callSignIn(LoginRequestBody requestBody, LoginCallback callback) {

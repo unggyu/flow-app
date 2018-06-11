@@ -6,15 +6,14 @@ import android.content.Context;
 import java.util.Calendar;
 
 import kr.hs.dgsw.flow.data.model.EditData;
-import kr.hs.dgsw.flow.data.realm.loginhistory.LoginHistoryHelper;
+import kr.hs.dgsw.flow.data.realm.login.LoginHelper;
 import kr.hs.dgsw.flow.data.realm.out.OutHelper;
-import kr.hs.dgsw.flow.data.realm.user.UserHelper;
 import kr.hs.dgsw.flow.data.realm.user.model.User;
 import kr.hs.dgsw.flow.view.out.model.Enum.OutType;
 import kr.hs.dgsw.flow.view.out.model.body.ResponseOut;
 
 public class OutData {
-    private LoginHistoryHelper mLoginHistoryHelper;
+    private LoginHelper mLoginHelper;
     private OutHelper mOutHelper;
 
     private OutType outType;
@@ -36,8 +35,8 @@ public class OutData {
     public OutData(Context context, OutType outType,
                    int outYear, int outMonth, int outDay, int outHour, int outMinute,
                    int inYear, int inMonth, int inDay, int inHour, int inMinute) {
-        this.mLoginHistoryHelper = new LoginHistoryHelper(context);
-        this.mOutHelper = new OutHelper(context);
+        mLoginHelper = new LoginHelper(context);
+        mOutHelper = new OutHelper(context);
 
         this.outType = outType;
         this.outYear = outYear;
@@ -173,16 +172,16 @@ public class OutData {
         return false;
     }
 
-    public int getLoggedInHistorySize() {
-        return mLoginHistoryHelper.getSize();
+    public boolean isLoggedIn() {
+        return mLoginHelper.isLoggedIn();
     }
 
     public String getToken() {
-        return mLoginHistoryHelper.getLastLoggedInUser().getToken();
+        return mLoginHelper.getLoggedUser().getToken();
     }
 
     public void insertOut(ResponseOut responseOut, OutType outType) {
-        User user = mLoginHistoryHelper.getLastLoggedInUser();
+        User user = mLoginHelper.getLoggedUser();
 
         if (user != null) {
             mOutHelper.insertOut(

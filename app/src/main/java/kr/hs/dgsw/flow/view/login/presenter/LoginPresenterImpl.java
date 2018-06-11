@@ -96,7 +96,7 @@ public class LoginPresenterImpl implements ILoginContract.Presenter {
                 if (response.isSuccessful()) {
                     LoginResponseBody responseBody = response.body();
                     mView.showMessageToast(responseBody.getMessage());
-                    if (responseBody.getStatus() == 200) {
+                    if (responseBody.getStatus() == 200) { // 성공
                         String token = responseBody.getData().getToken();
 
                         // 로컬DB에 User 업뎃 or 삽입
@@ -107,7 +107,10 @@ public class LoginPresenterImpl implements ILoginContract.Presenter {
                         );
 
                         // 로그인 기록 저장
-                        mLoginData.insertLoggedInHistory(requestBody.getEmail());
+                        if (!mLoginData.insertLogin(requestBody.getEmail())) {
+                            mView.showMessageToast("이메일이 DB에 존재하지 않습니다.");
+                            return;
+                        }
 
                         // 메인 엑티비티로 이동
                         mView.navigateToMain();

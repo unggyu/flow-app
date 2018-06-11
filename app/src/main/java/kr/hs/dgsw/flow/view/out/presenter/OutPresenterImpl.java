@@ -142,7 +142,7 @@ public class OutPresenterImpl implements IOutContract.Presenter {
 
     @Override
     public void applyOut() {
-        if (mOutData.getLoggedInHistorySize() == 0) {
+        if (!mOutData.isLoggedIn()) {
             mView.showMessageToast("로그인 되어있지 않습니다.");
             return;
         }
