@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import kr.hs.dgsw.flow.R;
-import kr.hs.dgsw.flow.fcm.FlowMessagingService;
+import kr.hs.dgsw.flow.util.fcm.FlowMessagingService;
 import kr.hs.dgsw.flow.view.main.MainActivity;
 import kr.hs.dgsw.flow.view.out.custom.OutRadioButton;
 import kr.hs.dgsw.flow.view.out.model.Enum.OutType;

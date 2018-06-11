@@ -3,20 +3,27 @@ package kr.hs.dgsw.flow.view.main;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 import kr.hs.dgsw.flow.R;
 import kr.hs.dgsw.flow.data.realm.loginhistory.LoginHistoryHelper;
 import kr.hs.dgsw.flow.data.realm.loginhistory.model.LoginHistory;
 import kr.hs.dgsw.flow.data.realm.out.OutHelper;
+import kr.hs.dgsw.flow.data.realm.out.model.Out;
 import kr.hs.dgsw.flow.data.realm.token.TokenHelper;
+import kr.hs.dgsw.flow.data.realm.user.UserHelper;
 import kr.hs.dgsw.flow.view.login.LoginActivity;
 import kr.hs.dgsw.flow.view.meal.MealFragment;
 import kr.hs.dgsw.flow.view.notice.NoticeFragment;
@@ -26,7 +33,11 @@ import kr.hs.dgsw.flow.view.ticket.TicketActivity;
 public class MainActivity extends AppCompatActivity
         implements MealFragment.OnFragmentInteractionListener,
         OutFragment.OnFragmentInteractionListener,
-        NoticeFragment.OnFragmentInteractionListener {
+        NoticeFragment.OnFragmentInteractionListener,
+        BottomNavigationView.OnNavigationItemSelectedListener {
+
+    @BindView(R.id.navigation)
+    public BottomNavigationView mNavigationView;
 
     private LoginHistoryHelper mLoginHistoryHelper;
 
@@ -34,6 +45,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
 
         mLoginHistoryHelper = new LoginHistoryHelper(this);
 
@@ -44,9 +57,27 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        transactionFragment(MealFragment.getInstance());
+        mNavigationView.setOnNavigationItemSelectedListener(this);
+
+        Intent intent = getIntent();
+        int defaultItemId;
+        String type = intent.getStringExtra("type");
+        if (type != null) {
+            // 백그라운드 메세징 서비스에서 넘어왔을 때
+            if (type.equals("go_out") || type.equals("sleep_out")) {
+                // 외출 외박일 때
+                Intent outIntent = new Intent(this, Out.class);
+                startActivity(outIntent);
+            } else if (type.equals("notice")) {
+                // 공지일 때
+                mNavigationView.setSelectedItemId(R.id.navigation_notifications);
+            }
+        } else {
+            // 포그라운드 메세징 서비스에서 넘어왔을 때
+            defaultItemId = intent.getIntExtra("defaultItemId", R.id.navigation_meal);
+            mNavigationView.setSelectedItemId(defaultItemId);
+        }
+
     }
 
     @Override
@@ -91,8 +122,8 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = item -> {
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment selectedFragment = null;
         switch (item.getItemId()) {
             case R.id.navigation_meal:
@@ -108,8 +139,9 @@ public class MainActivity extends AppCompatActivity
         transactionFragment(selectedFragment);
 
         return true;
-    };
+    }
 
     @Override
     public void onFragmentInteraction(Uri uri) { }
 }
+

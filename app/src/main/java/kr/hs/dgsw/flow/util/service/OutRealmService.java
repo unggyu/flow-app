@@ -1,4 +1,4 @@
-package kr.hs.dgsw.flow.service;
+package kr.hs.dgsw.flow.util.service;
 
 import android.app.IntentService;
 import android.content.Intent;

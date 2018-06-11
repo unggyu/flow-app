@@ -21,7 +21,7 @@ public class NoticeAdapter
 
     private Context mContext;
 
-    private ArrayList<ResponseNoticeItem> mNoticeList;
+    private ArrayList<ResponseNoticeItem> mNoticeList = new ArrayList<>();
 
     public NoticeAdapter(Context context) {
         mContext = context;
@@ -38,8 +38,6 @@ public class NoticeAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (mNoticeList == null) return;
-
         ResponseNoticeItem noticeItem = mNoticeList.get(position);
 
         holder.mWriter.setText(noticeItem.getWriter());
@@ -50,17 +48,17 @@ public class NoticeAdapter
 
     @Override
     public int getItemCount() {
-        return mNoticeList != null ? mNoticeList.size() : 0;
+        return mNoticeList.size();
     }
 
     @Override
     public void notifyAdapter() {
-        notifyDataSetChanged();
+        notifyItemChanged(0, mNoticeList.size());
     }
 
     @Override
     public void addItems(ArrayList<ResponseNoticeItem> noticeList) {
-        mNoticeList = noticeList;
+        mNoticeList.addAll(noticeList);
     }
 
     @Override

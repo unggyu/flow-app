@@ -30,7 +30,6 @@ public class NoticePresenterImpl implements INoticeContract.Presenter {
     public NoticePresenterImpl(Context context, @NonNull INoticeContract.View view) {
         mLoginHistoryHelper = new LoginHistoryHelper(context);
         mView = view;
-        loadItems();
     }
 
     @Override
@@ -54,26 +53,26 @@ public class NoticePresenterImpl implements INoticeContract.Presenter {
     }
 
     @Override
-    public void loadItems() {
+    public void loadItems(final boolean isClear) {
         User loggedUser = mLoginHistoryHelper.getLastLoggedInUser();
         mView.showProgress(true);
         Call<NoticeResponseBody> call = FlowUtils.getFlowService().getNotices(loggedUser.getToken());
         call.enqueue(new Callback<NoticeResponseBody>() {
             @Override
             public void onResponse(Call<NoticeResponseBody> call, Response<NoticeResponseBody> response) {
+                mView.showProgress(false);
                 if (response.isSuccessful() && response.body().getStatus() == 200) {
-                    loadItems(response.body().getData(), false);
+                    loadItems(response.body().getData(), isClear);
                 } else {
                     mView.showMessageToast(
                             response.body().getStatus() + " error: " +response.body().getMessage());
                 }
-                mView.showProgress(false);
             }
 
             @Override
             public void onFailure(Call<NoticeResponseBody> call, Throwable t) {
-                mView.showMessageToast(t.getMessage());
                 mView.showProgress(false);
+                mView.showMessageToast(t.getMessage());
             }
         });
     }
@@ -83,8 +82,13 @@ public class NoticePresenterImpl implements INoticeContract.Presenter {
         if (isClear) {
             mAdapterModel.clearItems();
         }
-        ArrayList<ResponseNoticeItem> noticeItems = new ArrayList<>(Arrays.asList(responseData.getNoticeItems()));
+
+        ArrayList<ResponseNoticeItem> noticeItems =
+                new ArrayList<>(Arrays.asList(responseData.getNoticeItems()));
+
         mAdapterModel.addItems(noticeItems);
         mAdapterView.notifyAdapter();
+        // 데이터가 없을 땐 없다고 텍스트뷰를 띄어줌
+        mView.showNoneNotice(noticeItems.size() <= 0);
     }
 }

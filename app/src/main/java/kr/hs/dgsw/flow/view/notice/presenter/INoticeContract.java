@@ -8,13 +8,14 @@ import kr.hs.dgsw.flow.view.notice.model.ResponseData;
 public interface INoticeContract {
     interface View extends BaseView {
         void showProgress(final boolean show);
+        void showNoneNotice(final boolean show);
     }
 
     interface Presenter extends BasePresenter<View> {
         void setNoticeAdapterView(INoticeAdapterContract.View adapterView);
         void setNoticeAdapterModel(INoticeAdapterContract.Model adapterModel);
 
-        void loadItems();
+        void loadItems(boolean isClear);
         void loadItems(ResponseData responseData, boolean isClear);
     }
 }

@@ -1,4 +1,4 @@
-package kr.hs.dgsw.flow.fcm;
+package kr.hs.dgsw.flow.util.fcm;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -16,15 +16,17 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.Map;
 
 import kr.hs.dgsw.flow.R;
-import kr.hs.dgsw.flow.data.realm.loginhistory.LoginHistoryHelper;
-import kr.hs.dgsw.flow.data.realm.out.OutHelper;
-import kr.hs.dgsw.flow.data.realm.user.model.User;
-import kr.hs.dgsw.flow.service.OutRealmService;
+import kr.hs.dgsw.flow.application.Foreground;
+import kr.hs.dgsw.flow.util.service.OutRealmService;
 import kr.hs.dgsw.flow.view.main.MainActivity;
 import kr.hs.dgsw.flow.view.ticket.TicketActivity;
 
 public class FlowMessagingService extends FirebaseMessagingService {
 
+    /**
+     * 포그라운드일 때만 작동함
+     * @param remoteMessage
+     */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
@@ -39,17 +41,13 @@ public class FlowMessagingService extends FirebaseMessagingService {
         String type = data.get("type");
         if (type.equals("go_out") || type.equals("sleep_out")) {
             // 외출/외박인 경우 외출/외박 액티비티로 이동
-            intent = new Intent(this, TicketActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            Intent outIntent = new Intent(this, OutRealmService.class);
-            outIntent.putExtra("serverIdx", Integer.parseInt(data.get("idx")));
-            startService(outIntent);
+            intent = new Intent(Foreground.get().getNowActivity(), TicketActivity.class);
         } else if (type.equals("notice")) {
-            //TODO: 공지일 때 공지 프래그먼트로 이동
-            intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // MainActivity에있는 공지 Fragment로 이동
+            intent = new Intent(Foreground.get().getNowActivity(), MainActivity.class);
+            intent.putExtra("defaultItemId", R.id.navigation_notifications);
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent
                 .getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
@@ -74,7 +72,6 @@ public class FlowMessagingService extends FirebaseMessagingService {
                     NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
-
         notificationManager.notify(0, notificationBuilder.build());
     }
 }

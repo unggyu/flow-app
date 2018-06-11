@@ -38,4 +38,9 @@ public class UserHelper extends RealmHelper {
             updateUser.setToken(token);
         });
     }
+
+    public void deleteAll() {
+        getRealm().executeTransaction(realm ->
+            realm.where(User.class).findAll().deleteAllFromRealm());
+    }
 }
