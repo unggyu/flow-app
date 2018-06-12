@@ -16,25 +16,17 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.data.realm.out.model.Out;
+import kr.hs.dgsw.flow.view.out.model.body.ResponseOut;
 
 public class TicketAdapter
         extends RecyclerView.Adapter<TicketAdapter.ViewHolder> {
-    public static final String KEY_TYPE = "type";
-    public static final String KEY_STATUS = "status";
-    public static final String KEY_IN_DATE_TIME = "in_date_time";
-    public static final String KEY_OUT_DATE_TIME = "out_date_time";
-    public static final String KEY_REASON = "reason";
-
     private Context mContext;
 
-    private ArrayList<HashMap<String, String>> mOutList;
+    private ArrayList<Out> mOutList = new ArrayList<>();
 
-    public TicketAdapter(Context context, ArrayList<HashMap<String, String>> outList) {
-        if (outList == null) {
-            throw new IllegalArgumentException("outList: null error");
-        }
+    public TicketAdapter(Context context) {
         mContext = context;
-        mOutList = outList;
     }
 
     @NonNull
@@ -46,20 +38,25 @@ public class TicketAdapter
         return new ViewHolder(view);
     }
 
-    public void add(HashMap<String, String> outMap) {
-        mOutList.add(outMap);
+    public void addItems(ArrayList<Out> outList) {
+        mOutList.addAll(outList);
+    }
+
+    public void add(Out out) {
+        mOutList.add(out);
     }
 
     @Override
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        HashMap<String, String> outItem = mOutList.get(position);
+        Out outItem = mOutList.get(position);
 
-        holder.mType.setText(outItem.get(KEY_TYPE));
-        holder.mStatus.setText(outItem.get(KEY_STATUS));
-        holder.mOutDateTime.setText(outItem.get(KEY_IN_DATE_TIME));
-        holder.mInDateTime.setText(outItem.get(KEY_OUT_DATE_TIME));
-        holder.mReason.setText(outItem.get(KEY_REASON));
+        holder.mType.setText(outItem.getOutType() == 0 ? "외출" : "외박");
+        holder.mStatus.setText(outItem.getStatus() == 0 ?
+                "승인 대기중.." : outItem.getStatus() == 1 ? "승인" : "거절");
+        holder.mOutDateTime.setText(outItem.getOutDateTime());
+        holder.mInDateTime.setText(outItem.getInDateTime());
+        holder.mReason.setText(outItem.getReason());
     }
 
     @Override

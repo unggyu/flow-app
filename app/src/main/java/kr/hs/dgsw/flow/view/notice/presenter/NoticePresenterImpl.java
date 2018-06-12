@@ -2,6 +2,8 @@ package kr.hs.dgsw.flow.view.notice.presenter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.AdapterView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +12,7 @@ import kr.hs.dgsw.flow.data.realm.login.LoginHelper;
 import kr.hs.dgsw.flow.data.realm.user.model.User;
 import kr.hs.dgsw.flow.util.retrofit.FlowUtils;
 import kr.hs.dgsw.flow.view.notice.adapter.INoticeAdapterContract;
+import kr.hs.dgsw.flow.view.notice.listener.OnItemClickListener;
 import kr.hs.dgsw.flow.view.notice.model.NoticeResponseBody;
 import kr.hs.dgsw.flow.view.notice.model.ResponseData;
 import kr.hs.dgsw.flow.view.notice.model.ResponseNoticeItem;
@@ -17,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NoticePresenterImpl implements INoticeContract.Presenter {
+public class NoticePresenterImpl implements INoticeContract.Presenter, OnItemClickListener {
 
     private INoticeContract.View mView;
 
@@ -44,6 +47,7 @@ public class NoticePresenterImpl implements INoticeContract.Presenter {
     @Override
     public void setNoticeAdapterView(INoticeAdapterContract.View adapterView) {
         mAdapterView = adapterView;
+        mAdapterView.setOnClickListener(this);
     }
 
     @Override
@@ -89,5 +93,15 @@ public class NoticePresenterImpl implements INoticeContract.Presenter {
         mAdapterView.notifyAdapter();
         // 데이터가 없을 땐 없다고 텍스트뷰를 띄어줌
         mView.showNoneNotice(noticeItems.size() <= 0);
+    }
+
+    /**
+     * 리스트의 이이템을 클릭했을 시
+     * @param position
+     */
+    @Override
+    public void onItemClick(int position) {
+        ResponseNoticeItem noticeItem = mAdapterModel.getItem(position);
+        mView.navigateToNoticeDetails(noticeItem.getIdx());
     }
 }

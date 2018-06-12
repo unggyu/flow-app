@@ -93,7 +93,7 @@ public class MealPresenterImpl implements IMealContract.Presenter {
 
     @Override
     public void showMealData(int year, int month, int day) {
-        MealType mealType = mMealData.getMealTypeToShow(year, month, day);
+        MealType mealType = mMealData.getNextMealType(year, month, day);
         showMealData(year, month, day, mealType);
     }
 

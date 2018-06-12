@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity
             defaultItemId = intent.getIntExtra("defaultItemId", R.id.navigation_meal);
             mNavigationView.setSelectedItemId(defaultItemId);
         }
-
     }
 
     @Override
@@ -86,6 +85,8 @@ public class MainActivity extends AppCompatActivity
             case R.id.out_history:
                 navigateToOutHistory();
                 return true;
+            case R.id.logout:
+                logout();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -97,6 +98,12 @@ public class MainActivity extends AppCompatActivity
      */
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
+    }
+
+    public void logout() {
+        mLoginHelper.logout();
+        navigateToLogin();
+        finish();
     }
 
     public void navigateToOutHistory() {

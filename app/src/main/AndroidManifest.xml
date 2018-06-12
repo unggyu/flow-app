@@ -13,13 +13,13 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+        android:name=".application.FlowApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".application.FlowApplication">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".view.main.MainActivity"
             android:label="@string/app_name">
@@ -37,26 +37,25 @@
             android:label="@string/title_activity_login" />
         <activity
             android:name=".view.ticket.TicketActivity"
-            android:label="@string/out_history"/>
+            android:label="@string/out_history" />
 
         <!-- Firebase Services -->
 
-        <service
-            android:name=".util.fcm.FlowMessagingService">
+        <service android:name=".util.fcm.FlowMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <service android:name=".util.fcm.FlowFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".util.service.OutRealmService"
+            android:enabled="true" />
 
-        <service
-            android:name=".util.fcm.FlowFirebaseInstanceIDService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
-        <service
-            android:enabled="true"
-            android:name=".util.service.OutRealmService"/>
+        <activity android:name=".view.noticedetails.NoticeDetailsActivity"></activity>
     </application>
 
 </manifest>

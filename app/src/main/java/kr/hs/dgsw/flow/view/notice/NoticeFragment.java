@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,8 +29,10 @@ import butterknife.ButterKnife;
 import kr.hs.dgsw.flow.R;
 import kr.hs.dgsw.flow.view.main.MainActivity;
 import kr.hs.dgsw.flow.view.notice.adapter.NoticeAdapter;
+import kr.hs.dgsw.flow.view.notice.model.ResponseNoticeItem;
 import kr.hs.dgsw.flow.view.notice.presenter.INoticeContract;
 import kr.hs.dgsw.flow.view.notice.presenter.NoticePresenterImpl;
+import kr.hs.dgsw.flow.view.noticedetails.NoticeDetailsActivity;
 
 public class NoticeFragment extends Fragment implements INoticeContract.View {
 
@@ -169,6 +172,13 @@ public class NoticeFragment extends Fragment implements INoticeContract.View {
     public void showNoneNotice(final boolean show) {
         mNoneNoticeView.setVisibility(show ? View.VISIBLE : View.GONE);
         mRefreshView.setVisibility(show ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public void navigateToNoticeDetails(int noticeIdx) {
+        Intent intent = new Intent(getContext(), NoticeDetailsActivity.class);
+        intent.putExtra("idx", noticeIdx);
+        startActivity(intent);
     }
 
     public interface OnFragmentInteractionListener {

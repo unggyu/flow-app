@@ -1,25 +1,31 @@
 package kr.hs.dgsw.flow.view.notice.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.view.notice.listener.OnItemClickListener;
 import kr.hs.dgsw.flow.view.notice.model.ResponseNoticeItem;
+import kr.hs.dgsw.flow.view.noticedetails.NoticeDetailsActivity;
 
 public class NoticeAdapter
         extends RecyclerView.Adapter<NoticeAdapter.ViewHolder>
         implements INoticeAdapterContract.View, INoticeAdapterContract.Model{
 
     private Context mContext;
+    private OnItemClickListener mOnItemClickListener;
 
     private ArrayList<ResponseNoticeItem> mNoticeList = new ArrayList<>();
 
@@ -33,7 +39,7 @@ public class NoticeAdapter
         View view = LayoutInflater
                 .from(mContext)
                 .inflate(R.layout.item_notice, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, mOnItemClickListener);
     }
 
     @Override
@@ -44,6 +50,8 @@ public class NoticeAdapter
         holder.mWriteDate.setText(noticeItem.getWriteDate());
         holder.mModifyDate.setText(noticeItem.getModifyDate());
         holder.mContent.setText(noticeItem.getContent());
+
+        holder.onBind(position);
     }
 
     @Override
@@ -57,6 +65,11 @@ public class NoticeAdapter
     }
 
     @Override
+    public void setOnClickListener(OnItemClickListener clickListener) {
+        mOnItemClickListener = clickListener;
+    }
+
+    @Override
     public void addItems(ArrayList<ResponseNoticeItem> noticeList) {
         mNoticeList.addAll(noticeList);
     }
@@ -64,6 +77,11 @@ public class NoticeAdapter
     @Override
     public void clearItems() {
         mNoticeList.clear();
+    }
+
+    @Override
+    public ResponseNoticeItem getItem(int position) {
+        return mNoticeList.get(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -79,9 +97,23 @@ public class NoticeAdapter
         @BindView(R.id.notice_content)
         public TextView mContent;
 
-        public ViewHolder(View itemView) {
+        public View mItemView;
+
+        private OnItemClickListener mOnItemClickListener;
+
+        public ViewHolder(View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
+            mItemView = itemView;
+            mOnItemClickListener = onItemClickListener;
             ButterKnife.bind(this, itemView);
+        }
+
+        public void onBind(int position) {
+            mItemView.setOnClickListener((v) -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(position);
+                }
+            });
         }
     }
 }

@@ -74,7 +74,7 @@ public class LoginData {
     public boolean insertLogin(String email) {
         User user = mUserHelper.getUserByEmail(email);
         if (user != null) {
-            mLoginHelper.Login(user);
+            mLoginHelper.login(user);
             return true;
         }
         return false;

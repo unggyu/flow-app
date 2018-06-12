@@ -62,6 +62,7 @@ public class MealData {
         this.mealYear = year;
         this.mealMonth = month;
         this.mealDay = day;
+        this.mealType = MealType.BREAKFAST;
     }
 
     public int getMealYear() {
@@ -77,7 +78,7 @@ public class MealData {
     }
 
     public String getMeal(int dayOfMonth, MealType mealType) {
-        if (menuList == null && menuList.isEmpty()) {
+        if (menuList == null || menuList.isEmpty()) {
             return null;
         }
 
@@ -97,13 +98,13 @@ public class MealData {
     }
 
     /**
-     * 아침, 점심, 저녁 중 무엇을 보여줄지 판단 하여 반환 하는 메서드
+     * 다음 시간을 반환함
      * @param year
      * @param month
      * @param day
      * @return
      */
-    public MealType getMealTypeToShow(int year, int month, int day) {
+    public MealType getNextMealType(int year, int month, int day) {
         Calendar nowCal = Calendar.getInstance();
         // 날짜만 비교하기 위해서 클론으로 시간은 동일하게 설정
         Calendar requestedCal = (Calendar) nowCal.clone();

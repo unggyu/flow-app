@@ -23,10 +23,15 @@ public class LoginHelper extends RealmHelper {
         return logged != null ? logged.getUser() : null;
     }
 
-    public void Login(User user) {
+    public void login(User user) {
         getRealm().executeTransaction(realm -> {
             realm.where(Login.class).findAll().deleteAllFromRealm();
             realm.createObject(Login.class, 1).setUser(user);
         });
+    }
+
+    public void logout() {
+        getRealm().executeTransaction(realm ->
+            realm.where(Login.class).findAll().deleteAllFromRealm());
     }
 }

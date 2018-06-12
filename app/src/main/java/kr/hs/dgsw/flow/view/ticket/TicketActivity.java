@@ -48,37 +48,8 @@ public class TicketActivity extends AppCompatActivity {
         List<Out> outList = mOutHelper.getOutsByEmail(loggedInUser.getEmail());
         // 최신순으로 볼 수 있도록 리스트를 뒤집는다
         Collections.reverse(outList);
-        mTicketAdapter = makeTicketAdapter(outList);
+        mTicketAdapter = new TicketAdapter(this);
+        mTicketAdapter.addItems((ArrayList<Out>) outList);
         mRecyclerView.setAdapter(mTicketAdapter);
-    }
-
-    private TicketAdapter makeTicketAdapter(List<Out> outList) {
-        ArrayList<HashMap<String, String>> outMaps = new ArrayList<>();
-
-        // Out -> HashMap으로 변환
-        for (Out out : outList) {
-            outMaps.add(convertToMap(out));
-        }
-
-        mRecyclerView.setHasFixedSize(true);
-        return new TicketAdapter(this, outMaps);
-    }
-
-    /**
-     * Out객체를 HashMap으로 변환
-     * @param out
-     * @return
-     */
-    private HashMap<String, String> convertToMap(Out out) {
-        HashMap<String, String> outMap = new HashMap<>();
-
-        outMap.put(TicketAdapter.KEY_TYPE, out.getOutType() == 0 ? "외출" : "외박");
-        outMap.put(TicketAdapter.KEY_STATUS, out.getStatus() == 0 ?
-                "승인 대기중.." : out.getStatus() == 1 ? "승인" : "거절");
-        outMap.put(TicketAdapter.KEY_OUT_DATE_TIME, out.getOutDateTime());
-        outMap.put(TicketAdapter.KEY_IN_DATE_TIME, out.getInDateTime());
-        outMap.put(TicketAdapter.KEY_REASON, out.getReason());
-
-        return outMap;
     }
 }
