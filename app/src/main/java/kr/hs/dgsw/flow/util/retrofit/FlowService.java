@@ -3,6 +3,7 @@ package kr.hs.dgsw.flow.util.retrofit;
 import kr.hs.dgsw.flow.view.login.model.body.LoginRequestBody;
 import kr.hs.dgsw.flow.view.login.model.body.LoginResponseBody;
 import kr.hs.dgsw.flow.view.notice.model.NoticeResponseBody;
+import kr.hs.dgsw.flow.view.noticedetails.model.body.NoticeDetailsResponseBody;
 import kr.hs.dgsw.flow.view.out.model.body.OutRequestBody;
 import kr.hs.dgsw.flow.view.out.model.body.OutResponseBody;
 import kr.hs.dgsw.flow.view.register.model.body.RegisterRequestBody;
@@ -13,6 +14,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface FlowService {
     @Headers("Content-Type: application/json")
@@ -34,4 +36,8 @@ public interface FlowService {
     @Headers("Content-Type: application/json")
     @GET("/notice")
     Call<NoticeResponseBody> getNotices(@Header("x-access-token") String token);
+
+    @Headers("Content_Type: application/json")
+    @GET("/notice/{idx}")
+    Call<NoticeDetailsResponseBody> getNotice(@Header("x-access-token") String token, @Path("idx") int idx);
 }

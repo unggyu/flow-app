@@ -6,10 +6,14 @@ public class ResponseNoticeItem {
     private int idx;
     private String content;
     private String writer;
+
+    @SerializedName("write_date")
     private String writeDate;
+
+    @SerializedName("modify_date")
     private String modifyDate;
 
-    @SerializedName("NoticeFiles")
+    @SerializedName("notice_files")
     private ResponseNoticeFile[] noticeFiles;
 
     public ResponseNoticeItem(int idx, String content, String writer, String writeDate, String modifyDate, ResponseNoticeFile[] noticeFiles) {

@@ -51,7 +51,7 @@ public class MealFragment extends Fragment implements IMealContract.View {
 
     private IMealContract.Presenter mPresenter;
 
-    public static MealFragment getInstance() {
+    public static synchronized MealFragment getInstance() {
         if (mMealFragment == null) {
             mMealFragment = new MealFragment();
         }

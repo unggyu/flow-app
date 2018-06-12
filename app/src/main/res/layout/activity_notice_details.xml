@@ -8,57 +8,79 @@
     android:padding="12dp"
     tools:context=".view.noticedetails.NoticeDetailsActivity">
 
-    <LinearLayout
+    <ProgressBar
+        android:id="@+id/notice_details.progress"
+        style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@mipmap/ic_person_round"
-            android:foreground="@drawable/shape_circle"
-            android:layout_marginBottom="8dp"/>
+    <ScrollView
+        android:id="@+id/notice_details_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="8dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@mipmap/ic_person_round"
+                    android:foreground="@drawable/shape_circle" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/notice_details_writer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="cdr2116@dgsw.hs.kr"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/notice_details_write_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="2018년 6월 12일 14시 20분" />
+
+                    <TextView
+                        android:id="@+id/notice_details_modify_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="2018년 6월 12일 14시 20분 수정됨"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/notice_details_writer"
+                android:id="@+id/notice_details_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="cdr2116@dgsw.hs.kr"
+                android:text="내용ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/notice_details_write_date"
+            <ExpandableListView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="2018년 6월 12일 14시 20분" />
+                android:layout_height="match_parent"></ExpandableListView>
 
-            <TextView
-                android:id="@+id/notice_details_modify_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="2018년 6월 12일 14시 20분 수정됨" />
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
 
-    <TextView
-        android:id="@+id/notice_details_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="내용ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="18sp" />
-
-    <ExpandableListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ExpandableListView>
 </LinearLayout>

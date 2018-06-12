@@ -3,6 +3,7 @@ package kr.hs.dgsw.flow.view.out.presenter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import java.text.ParseException;
 import java.util.Calendar;
 
 import kr.hs.dgsw.flow.data.model.EditData;
@@ -190,8 +191,13 @@ public class OutPresenterImpl implements IOutContract.Presenter {
                                     body.getData().getGoOut() : body.getData().getSleepOut();
 
                             // 외출/외박 데이터 db에 저장
-                            mOutData.insertOut(out, (body.getData().getGoOut() != null) ?
-                                    OutType.SHORT : OutType.LONG);
+                            try {
+                                mOutData.insertOut(out, (body.getData().getGoOut() != null) ?
+                                        OutType.SHORT : OutType.LONG);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                                mView.showMessageToast("시간 포맷이 다릅니다.");
+                            }
                         }
                     } else {
                         mView.showMessageToast(response.code() + " error: " +response.message());

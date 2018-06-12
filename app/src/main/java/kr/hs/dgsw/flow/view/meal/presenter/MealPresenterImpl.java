@@ -48,7 +48,11 @@ public class MealPresenterImpl implements IMealContract.Presenter {
         int day = mMealData.getMealDay();
         MealType mealType = mMealData.getMealType();
 
-        showMealData(year, month, day, mealType);
+        if (mealType != null) {
+            showMealData(year, month, day, mealType);
+        } else {
+            loadAndShow(year, month, day);
+        }
     }
 
     @Override

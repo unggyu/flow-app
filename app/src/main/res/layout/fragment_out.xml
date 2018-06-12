@@ -16,7 +16,6 @@
             android:id="@+id/out_main_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="64dp"
             android:orientation="vertical">
 
             <RadioGroup
@@ -49,7 +48,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
                 android:orientation="vertical"
                 android:padding="12dp"
                 app:layout_constraintBottom_toTopOf="@+id/out_apply_button"
@@ -59,7 +57,7 @@
                     android:id="@+id/out_out_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="15dp"
                     android:orientation="vertical"
                     android:visibility="visible"
                     app:layout_constraintTop_toBottomOf="@+id/out_radio_group">
@@ -70,6 +68,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/outing_time"
                         android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
                         android:textSize="30sp" />
 
                     <TextView
@@ -99,14 +98,13 @@
                             android:layout_weight="1"
                             android:text="@string/outing_time" />
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/out_in_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="15dp"
                     android:orientation="vertical"
                     android:visibility="visible"
                     app:layout_constraintBottom_toTopOf="@+id/out_apply_button"
@@ -118,6 +116,7 @@
                         android:layout_height="wrap_content"
                         android:text="복귀 시간"
                         android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
                         android:textSize="30sp" />
 
                     <TextView
@@ -161,7 +160,6 @@
                         android:layout_height="wrap_content"
                         android:hint="이유" />
                 </android.support.design.widget.TextInputLayout>
-
             </LinearLayout>
 
             <Button
@@ -176,5 +174,4 @@
                 app:layout_constraintBottom_toBottomOf="parent" />
         </LinearLayout>
     </ScrollView>
-
 </FrameLayout>

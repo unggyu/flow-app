@@ -56,10 +56,7 @@ public class NoticeFragment extends Fragment implements INoticeContract.View {
 
     private OnFragmentInteractionListener mListener;
 
-    @SuppressLint("ValidFragment")
-    private NoticeFragment() {}
-
-    public static NoticeFragment getInstance() {
+    public static synchronized NoticeFragment getInstance() {
         if (mNoticeFragment == null) {
             mNoticeFragment = new NoticeFragment();
         }

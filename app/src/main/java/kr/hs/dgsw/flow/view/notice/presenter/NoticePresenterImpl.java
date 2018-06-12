@@ -64,11 +64,15 @@ public class NoticePresenterImpl implements INoticeContract.Presenter, OnItemCli
             @Override
             public void onResponse(Call<NoticeResponseBody> call, Response<NoticeResponseBody> response) {
                 mView.showProgress(false);
-                if (response.isSuccessful() && response.body().getStatus() == 200) {
-                    loadItems(response.body().getData(), isClear);
+                if (response.isSuccessful()) {
+                    NoticeResponseBody body = response.body();
+                    if (body.getStatus() == 200) {
+                        loadItems(response.body().getData(), isClear);
+                    } else {
+                        mView.showMessageToast(body.getStatus() + " error: " + body.getMessage());
+                    }
                 } else {
-                    mView.showMessageToast(
-                            response.body().getStatus() + " error: " +response.body().getMessage());
+                    mView.showMessageToast(response.code() + " error: " + response.code());
                 }
             }
 

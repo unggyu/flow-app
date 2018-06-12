@@ -62,7 +62,6 @@ public class MealData {
         this.mealYear = year;
         this.mealMonth = month;
         this.mealDay = day;
-        this.mealType = MealType.BREAKFAST;
     }
 
     public int getMealYear() {

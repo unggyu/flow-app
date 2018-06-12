@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.util.Utils;
 import kr.hs.dgsw.flow.view.notice.listener.OnItemClickListener;
 import kr.hs.dgsw.flow.view.notice.model.ResponseNoticeItem;
 import kr.hs.dgsw.flow.view.noticedetails.NoticeDetailsActivity;
@@ -47,9 +49,21 @@ public class NoticeAdapter
         ResponseNoticeItem noticeItem = mNoticeList.get(position);
 
         holder.mWriter.setText(noticeItem.getWriter());
-        holder.mWriteDate.setText(noticeItem.getWriteDate());
-        holder.mModifyDate.setText(noticeItem.getModifyDate());
-        holder.mContent.setText(noticeItem.getContent());
+
+        try {
+            String writeDate = Utils.dateFormat(noticeItem.getWriteDate());
+            holder.mWriteDate.setText(writeDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String content = noticeItem.getContent();
+        // 20자 까지만 보여줌
+        if (content.length() > 20) {
+            content = content.substring(0, 19);
+            content = content + "...";
+        }
+        holder.mContent.setText(content);
 
         holder.onBind(position);
     }
@@ -90,9 +104,6 @@ public class NoticeAdapter
 
         @BindView(R.id.notice_write_date)
         public TextView mWriteDate;
-
-        @BindView(R.id.notice_modify_date)
-        public TextView mModifyDate;
 
         @BindView(R.id.notice_content)
         public TextView mContent;

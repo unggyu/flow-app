@@ -51,7 +51,7 @@ public class OutFragment extends Fragment implements IOutContract.View {
     @BindView(R.id.out_reason_layout)
     public TextInputLayout mReasonLayout;
 
-    public static OutFragment getInstance() {
+    public static synchronized OutFragment getInstance() {
         if (mOutFragment == null) {
             mOutFragment = new OutFragment();
         }
