@@ -8,6 +8,7 @@ import io.realm.RealmResults;
 import kr.hs.dgsw.flow.data.realm.RealmHelper;
 import kr.hs.dgsw.flow.data.realm.out.model.Out;
 import kr.hs.dgsw.flow.data.realm.user.model.User;
+import kr.hs.dgsw.flow.view.out.model.Enum.OutType;
 
 public class OutHelper extends RealmHelper {
     public OutHelper(Context context) {
@@ -54,10 +55,11 @@ public class OutHelper extends RealmHelper {
         });
     }
 
-    public void updateOutStatusByServerIdx(int serverIdx, int status) {
+    public void updateOutStatus(OutType outType, int serverIdx, int status) {
         getRealm().executeTransaction(realm -> {
             Out out = getRealm()
                     .where(Out.class)
+                    .equalTo("outType", outType == OutType.SHORT ? 0 : 1)
                     .equalTo("serverIdx", serverIdx)
                     .findFirst();
             out.setStatus(status);

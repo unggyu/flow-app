@@ -32,6 +32,7 @@ public class FlowMessagingService extends FirebaseMessagingService {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         Map<String, String> data = remoteMessage.getData();
         if (notification != null && data != null && !data.isEmpty()) {
+
             sendNotification(notification.getTitle(), notification.getBody(), data);
         }
     }
@@ -42,6 +43,11 @@ public class FlowMessagingService extends FirebaseMessagingService {
         if (type.equals("go_out") || type.equals("sleep_out")) {
             // 외출/외박인 경우 외출/외박 액티비티로 이동
             intent = new Intent(Foreground.get().getNowActivity(), TicketActivity.class);
+
+            Intent realmIntent = new Intent(this, OutRealmService.class);
+            realmIntent.putExtra("type", type);
+            realmIntent.putExtra("serverIdx", Integer.parseInt(data.get("idx")));
+            startService(realmIntent);
         } else if (type.equals("notice")) {
             // MainActivity에있는 공지 Fragment로 이동
             intent = new Intent(Foreground.get().getNowActivity(), MainActivity.class);

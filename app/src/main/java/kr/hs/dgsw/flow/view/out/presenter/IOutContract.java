@@ -3,6 +3,7 @@ package kr.hs.dgsw.flow.view.out.presenter;
 import kr.hs.dgsw.flow.base.BasePresenter;
 import kr.hs.dgsw.flow.base.BaseView;
 import kr.hs.dgsw.flow.view.out.model.Enum.OutType;
+import kr.hs.dgsw.flow.view.out.model.body.ResponseOut;
 
 public interface IOutContract {
     interface View extends BaseView {
@@ -36,5 +37,6 @@ public interface IOutContract {
         void validReason(String reason);
 
         void applyOut();
+        void onSuccess(ResponseOut out, OutType outType);
     }
 }

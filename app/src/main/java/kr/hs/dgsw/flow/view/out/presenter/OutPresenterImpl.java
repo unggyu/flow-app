@@ -186,18 +186,14 @@ public class OutPresenterImpl implements IOutContract.Presenter {
                         OutResponseBody body = response.body();
                         mView.showMessageToast(body.getMessage());
                         if (body.getStatus() == 200) {
+                            OutType outType = (body.getData().getGoOut() != null)
+                                    ? OutType.SHORT : OutType.LONG;
                             // 외출은 goOut에 저장되고 외박은 goSleepOut에 저장되어있음.
-                            ResponseOut out = (body.getData().getGoOut() != null) ?
+                            ResponseOut out = (outType == OutType.SHORT) ?
                                     body.getData().getGoOut() : body.getData().getSleepOut();
-
-                            // 외출/외박 데이터 db에 저장
-                            try {
-                                mOutData.insertOut(out, (body.getData().getGoOut() != null) ?
-                                        OutType.SHORT : OutType.LONG);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                                mView.showMessageToast("시간 포맷이 다릅니다.");
-                            }
+                            onSuccess(out, outType);
+                        } else {
+                            mView.showMessageToast(body.getStatus() + " error: " + body.getMessage());
                         }
                     } else {
                         mView.showMessageToast(response.code() + " error: " +response.message());
@@ -209,6 +205,17 @@ public class OutPresenterImpl implements IOutContract.Presenter {
                     mView.showMessageToast(t.getMessage());
                 }
             });
+        }
+    }
+
+    @Override
+    public void onSuccess(ResponseOut out, OutType outType) {
+        try {
+            // 외출/외박 데이터 db에 저장
+            mOutData.insertOut(out, outType);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            mView.showMessageToast("시간 포맷이 다릅니다.");
         }
     }
 }

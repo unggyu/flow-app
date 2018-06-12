@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="8dp"
     tools:context=".view.meal.MealFragment">
 
     <ProgressBar
@@ -18,7 +19,6 @@
         android:id="@+id/meal_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
         android:weightSum="1"
         android:orientation="vertical">
 
@@ -48,7 +48,8 @@
                 android:id="@+id/meal_date_pick_button"
                 android:layout_width="match_parent"
                 android:layout_height="53dp"
-                android:text="@string/select_date"/>
+                android:text="@string/select_date"
+                android:textColor="@color/colorPrimaryDark" />
 
             <LinearLayout
                 android:id="@+id/meal_type_buttons_layout"
@@ -62,6 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/breakfast"
+                    android:textColor="@color/colorPrimaryDark"
                     app:mealType="BREAKFAST" />
 
                 <kr.hs.dgsw.flow.view.meal.custom.MealButton
@@ -70,6 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/lunch"
+                    android:textColor="@color/colorPrimaryDark"
                     app:mealType="LUNCH" />
 
                 <kr.hs.dgsw.flow.view.meal.custom.MealButton
@@ -78,6 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/dinner"
+                    android:textColor="@color/colorPrimaryDark"
                     app:mealType="DINNER" />
             </LinearLayout>
         </LinearLayout>

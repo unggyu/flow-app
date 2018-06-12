@@ -37,8 +37,6 @@ public class OutFragment extends Fragment implements IOutContract.View {
 
     private IOutContract.Presenter mPresenter;
 
-    private NotificationManager mNotificationManager;
-
     @BindView(R.id.out_radio_group)
     public RadioGroup mRadioGroup;
 

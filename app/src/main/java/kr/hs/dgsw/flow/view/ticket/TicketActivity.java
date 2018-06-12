@@ -70,6 +70,8 @@ public class TicketActivity extends AppCompatActivity {
         // 기록이 없다면 없다고 표시
         if (mTicketAdapter.getItemCount() <= 0) {
             showNoneOut(true);
+        } else {
+            showNoneOut(false);
         }
     }
 

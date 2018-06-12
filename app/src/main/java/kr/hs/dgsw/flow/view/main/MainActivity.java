@@ -16,11 +16,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import kr.hs.dgsw.flow.R;
 import kr.hs.dgsw.flow.data.realm.login.LoginHelper;
-import kr.hs.dgsw.flow.data.realm.out.model.Out;
+import kr.hs.dgsw.flow.data.realm.out.OutHelper;
 import kr.hs.dgsw.flow.view.login.LoginActivity;
 import kr.hs.dgsw.flow.view.meal.MealFragment;
 import kr.hs.dgsw.flow.view.notice.NoticeFragment;
 import kr.hs.dgsw.flow.view.out.OutFragment;
+import kr.hs.dgsw.flow.view.out.model.Enum.OutType;
 import kr.hs.dgsw.flow.view.ticket.TicketActivity;
 
 public class MainActivity extends AppCompatActivity
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity
     public BottomNavigationView mNavigationView;
 
     private LoginHelper mLoginHelper;
+    private OutHelper mOutHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         mLoginHelper = new LoginHelper(this);
+        mOutHelper = new OutHelper(this);
 
         // 로그인 내역이 없다면 로그인 액티비티로 이동
         if (!mLoginHelper.isLoggedIn()) {
@@ -57,16 +60,25 @@ public class MainActivity extends AppCompatActivity
         String type = intent.getStringExtra("type");
         if (type != null) {
             // 백그라운드 메세징 서비스에서 넘어왔을 때
-            if (type.equals("go_out") || type.equals("sleep_out")) {
-                // 외출 외박일 때
-                Intent outIntent = new Intent(this, Out.class);
-                startActivity(outIntent);
-            } else if (type.equals("notice")) {
-                // 공지일 때
-                mNavigationView.setSelectedItemId(R.id.navigation_notifications);
+            OutType outType;
+            switch (type) {
+                case "go_out":
+                case "sleep_out":
+                    outType = type.equals("go_out") ? OutType.SHORT : OutType.LONG;
+
+                    int outIdx = Integer.parseInt(intent.getStringExtra("idx"));
+                    // 응답이 오면 승인이니 승인으로 업데이트
+                    mOutHelper.updateOutStatus(outType, outIdx, 1);
+
+                    Intent outIntent = new Intent(this, TicketActivity.class);
+                    startActivity(outIntent);
+                    break;
+                case "notice":
+                    mNavigationView.setSelectedItemId(R.id.navigation_notifications);
+                    break;
             }
         } else {
-            // 포그라운드 메세징 서비스에서 넘어왔을 때
+            // 포그라운드 메시징 서비스에서 넘어왔을 때
             defaultItemId = intent.getIntExtra("defaultItemId", R.id.navigation_meal);
             mNavigationView.setSelectedItemId(defaultItemId);
         }
