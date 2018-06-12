@@ -39,6 +39,10 @@
             android:name=".view.ticket.TicketActivity"
             android:label="@string/out_history" />
 
+        <activity
+            android:name=".view.noticedetails.NoticeDetailsActivity"
+            android:label="@string/notice"/>
+
         <!-- Firebase Services -->
 
         <service android:name=".util.fcm.FlowMessagingService">
@@ -54,8 +58,5 @@
         <service
             android:name=".util.service.OutRealmService"
             android:enabled="true" />
-
-        <activity android:name=".view.noticedetails.NoticeDetailsActivity"></activity>
     </application>
-
 </manifest>

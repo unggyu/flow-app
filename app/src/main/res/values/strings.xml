@@ -2,6 +2,7 @@
     <string name="login">로그인</string>
     <string name="register">회원가입</string>
     <string name="out_history">외출/외박 기록</string>
+    <string name="notice">공지</string>
 
     <string name="app_name">Flow</string>
     <string name="tab_text_1">급식</string>
