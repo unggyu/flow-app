@@ -1,13 +1,13 @@
 package kr.hs.dgsw.flow.util.retrofit;
 
-import kr.hs.dgsw.flow.view.login.model.body.LoginRequestBody;
-import kr.hs.dgsw.flow.view.login.model.body.LoginResponseBody;
-import kr.hs.dgsw.flow.view.notice.model.NoticeResponseBody;
-import kr.hs.dgsw.flow.view.noticedetails.model.body.NoticeDetailsResponseBody;
-import kr.hs.dgsw.flow.view.out.model.body.OutRequestBody;
-import kr.hs.dgsw.flow.view.out.model.body.OutResponseBody;
-import kr.hs.dgsw.flow.view.register.model.body.RegisterRequestBody;
-import kr.hs.dgsw.flow.view.register.model.body.RegisterResponseBody;
+import kr.hs.dgsw.flow.util.retrofit.model.signin.LoginRequestBody;
+import kr.hs.dgsw.flow.util.retrofit.model.signin.LoginResponseBody;
+import kr.hs.dgsw.flow.util.retrofit.model.notice.NoticeResponseBody;
+import kr.hs.dgsw.flow.util.retrofit.model.notice.NoticeDetailsResponseBody;
+import kr.hs.dgsw.flow.util.retrofit.model.out.OutRequestBody;
+import kr.hs.dgsw.flow.util.retrofit.model.out.OutResponseBody;
+import kr.hs.dgsw.flow.util.retrofit.model.signup.RegisterRequestBody;
+import kr.hs.dgsw.flow.util.retrofit.model.signup.RegisterResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;

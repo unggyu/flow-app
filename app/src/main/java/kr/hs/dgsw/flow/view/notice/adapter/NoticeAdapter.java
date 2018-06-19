@@ -1,13 +1,11 @@
 package kr.hs.dgsw.flow.view.notice.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -15,12 +13,10 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import kr.hs.dgsw.flow.R;
-import kr.hs.dgsw.flow.util.Utils;
+import kr.hs.dgsw.flow.util.FlowUtils;
 import kr.hs.dgsw.flow.view.notice.listener.OnItemClickListener;
-import kr.hs.dgsw.flow.view.notice.model.ResponseNoticeItem;
-import kr.hs.dgsw.flow.view.noticedetails.NoticeDetailsActivity;
+import kr.hs.dgsw.flow.util.retrofit.model.notice.ResponseNoticeItem;
 
 public class NoticeAdapter
         extends RecyclerView.Adapter<NoticeAdapter.ViewHolder>
@@ -51,7 +47,7 @@ public class NoticeAdapter
         holder.mWriter.setText(noticeItem.getWriter());
 
         try {
-            String writeDate = Utils.dateFormat(noticeItem.getWriteDate());
+            String writeDate = FlowUtils.dateFormat(noticeItem.getWriteDate());
             holder.mWriteDate.setText(writeDate);
         } catch (ParseException e) {
             e.printStackTrace();

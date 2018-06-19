@@ -7,7 +7,8 @@ package kr.hs.dgsw.flow.view.meal.model.Enum;
 public enum MealType {
     BREAKFAST("아침"),
     LUNCH("점심"),
-    DINNER("저녁");
+    DINNER("저녁"),
+    NEXT_DAY_BREAKFAST("아침");
 
     private String mealType;
 

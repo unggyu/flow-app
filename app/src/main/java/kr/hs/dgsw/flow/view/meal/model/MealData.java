@@ -55,7 +55,22 @@ public class MealData {
     }
 
     public void setMealType(MealType mealType) {
-        this.mealType = mealType;
+        if (mealType == MealType.NEXT_DAY_BREAKFAST) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(mealYear, mealMonth, mealDay);
+            // 다음날 아침을 표시해야하기 때문에 다음날로 설정
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            setMealDate(year, month, day);
+
+            // 날짜를 설정해주고 그냥 아침으로 설정
+            this.mealType = MealType.BREAKFAST;
+        } else {
+            this.mealType = mealType;
+        }
     }
 
     public void setMealDate(int year, int month, int day) {
@@ -128,7 +143,7 @@ public class MealData {
             mealType = requestedCal.before(breakfastCal) ?
                     MealType.BREAKFAST : requestedCal.before(lunchCal) ?
                     MealType.LUNCH : requestedCal.before(dinnerCal) ?
-                    MealType.DINNER : MealType.BREAKFAST;
+                    MealType.DINNER : MealType.NEXT_DAY_BREAKFAST;
         } else {
             // 날짜가 다를 경우엔 기본 아침
             mealType = MealType.BREAKFAST;

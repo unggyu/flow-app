@@ -7,6 +7,13 @@
     android:padding="8dp"
     tools:context=".view.meal.MealFragment">
 
+    <TextView
+        android:id="@+id/meal_notice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone" />
+
     <ProgressBar
         android:id="@+id/meal_progress"
         style="?android:attr/progressBarStyle"
@@ -48,44 +55,51 @@
                 android:id="@+id/meal_date_pick_button"
                 android:layout_width="match_parent"
                 android:layout_height="53dp"
+                android:layout_margin="3dp"
+                android:background="@drawable/ripple"
                 android:text="@string/select_date"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="@color/white" />
 
-            <LinearLayout
-                android:id="@+id/meal_type_buttons_layout"
+            <co.ceryle.segmentedbutton.SegmentedButtonGroup
+                android:id="@+id/meal_buttons_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                app:sbg_animateSelector="bounce"
+                app:sbg_animateSelectorDuration="100"
+                app:sbg_backgroundColor="@android:color/white"
+                app:sbg_dividerColor="#969696"
+                app:sbg_dividerPadding="10dp"
+                app:sbg_dividerSize="1dp"
+                app:sbg_radius="2dp"
+                app:sbg_ripple="true"
+                app:sbg_rippleColor="@color/colorPrimaryLight"
+                app:sbg_selectorColor="@color/colorPrimary"
+                app:sbg_selectorTextColor="@color/white"
+                app:sbg_shadow="true"
+                app:sbg_shadowElevation="1dp"
+                app:sbg_shadowMargin="4dp">
 
-                <kr.hs.dgsw.flow.view.meal.custom.MealButton
-                    android:id="@+id/meal_breakfast_button"
+                <co.ceryle.segmentedbutton.SegmentedButton
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/breakfast"
-                    android:textColor="@color/colorPrimaryDark"
-                    app:mealType="BREAKFAST" />
+                    android:layout_height="match_parent"
+                    android:minHeight="10dp"
+                    android:textAllCaps="true"
+                    android:text="아침"/>
 
-                <kr.hs.dgsw.flow.view.meal.custom.MealButton
-                    android:id="@+id/meal_lunch_button"
+                <co.ceryle.segmentedbutton.SegmentedButton
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/lunch"
-                    android:textColor="@color/colorPrimaryDark"
-                    app:mealType="LUNCH" />
+                    android:layout_height="match_parent"
+                    android:minHeight="10dp"
+                    android:textAllCaps="true"
+                    android:text="점심"/>
 
-                <kr.hs.dgsw.flow.view.meal.custom.MealButton
-                    android:id="@+id/meal_dinner_button"
+                <co.ceryle.segmentedbutton.SegmentedButton
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/dinner"
-                    android:textColor="@color/colorPrimaryDark"
-                    app:mealType="DINNER" />
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:minHeight="10dp"
+                    android:textAllCaps="true"
+                    android:text="저녁"/>
+            </co.ceryle.segmentedbutton.SegmentedButtonGroup>
         </LinearLayout>
-
     </LinearLayout>
-
 </FrameLayout>

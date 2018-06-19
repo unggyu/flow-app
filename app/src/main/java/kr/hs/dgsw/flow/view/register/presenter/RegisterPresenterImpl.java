@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 
 import kr.hs.dgsw.flow.data.model.EditData;
 import kr.hs.dgsw.flow.view.register.model.RegisterData;
-import kr.hs.dgsw.flow.view.register.model.body.RegisterRequestBody;
-import kr.hs.dgsw.flow.view.register.model.body.RegisterResponseBody;
+import kr.hs.dgsw.flow.util.retrofit.model.signup.RegisterRequestBody;
+import kr.hs.dgsw.flow.util.retrofit.model.signup.RegisterResponseBody;
 import retrofit2.Response;
 
 public class RegisterPresenterImpl implements IRegisterContract.Presenter {

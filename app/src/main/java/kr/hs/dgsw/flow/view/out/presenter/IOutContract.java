@@ -3,7 +3,7 @@ package kr.hs.dgsw.flow.view.out.presenter;
 import kr.hs.dgsw.flow.base.BasePresenter;
 import kr.hs.dgsw.flow.base.BaseView;
 import kr.hs.dgsw.flow.view.out.model.Enum.OutType;
-import kr.hs.dgsw.flow.view.out.model.body.ResponseOut;
+import kr.hs.dgsw.flow.util.retrofit.model.out.ResponseOut;
 
 public interface IOutContract {
     interface View extends BaseView {

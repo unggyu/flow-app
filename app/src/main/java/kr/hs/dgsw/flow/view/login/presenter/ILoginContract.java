@@ -2,7 +2,7 @@ package kr.hs.dgsw.flow.view.login.presenter;
 
 import kr.hs.dgsw.flow.base.BasePresenter;
 import kr.hs.dgsw.flow.base.BaseView;
-import kr.hs.dgsw.flow.view.login.model.body.LoginRequestBody;
+import kr.hs.dgsw.flow.util.retrofit.model.signin.LoginRequestBody;
 
 public interface ILoginContract {
     interface View extends BaseView {

@@ -3,8 +3,7 @@ package kr.hs.dgsw.flow.view.notice.presenter;
 import kr.hs.dgsw.flow.base.BasePresenter;
 import kr.hs.dgsw.flow.base.BaseView;
 import kr.hs.dgsw.flow.view.notice.adapter.INoticeAdapterContract;
-import kr.hs.dgsw.flow.view.notice.model.ResponseData;
-import kr.hs.dgsw.flow.view.notice.model.ResponseNoticeItem;
+import kr.hs.dgsw.flow.util.retrofit.model.notice.ResponseData;
 
 public interface INoticeContract {
     interface View extends BaseView {

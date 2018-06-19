@@ -33,6 +33,9 @@
     <string name="email_more_hint">example@dgsw.hs.kr 형식의 이메일</string>
     <string name="password_more_hint">비밀번호는 8~16자리, 영문대소문자, 숫자, 특수문자 필수</string>
 
+    <!-- errors -->
+    <string name="error_not_connected_to_internet">인터넷에 연결되어있지 않습니다</string>
+
     <!-- Strings related to login -->
     <string name="sign_up">No account yet? Create One</string>
 

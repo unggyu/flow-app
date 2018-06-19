@@ -2,20 +2,18 @@ package kr.hs.dgsw.flow.view.notice.presenter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.view.View;
-import android.widget.AdapterView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import kr.hs.dgsw.flow.data.realm.login.LoginHelper;
 import kr.hs.dgsw.flow.data.realm.user.model.User;
-import kr.hs.dgsw.flow.util.retrofit.FlowUtils;
+import kr.hs.dgsw.flow.util.FlowUtils;
 import kr.hs.dgsw.flow.view.notice.adapter.INoticeAdapterContract;
 import kr.hs.dgsw.flow.view.notice.listener.OnItemClickListener;
-import kr.hs.dgsw.flow.view.notice.model.NoticeResponseBody;
-import kr.hs.dgsw.flow.view.notice.model.ResponseData;
-import kr.hs.dgsw.flow.view.notice.model.ResponseNoticeItem;
+import kr.hs.dgsw.flow.util.retrofit.model.notice.NoticeResponseBody;
+import kr.hs.dgsw.flow.util.retrofit.model.notice.ResponseData;
+import kr.hs.dgsw.flow.util.retrofit.model.notice.ResponseNoticeItem;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

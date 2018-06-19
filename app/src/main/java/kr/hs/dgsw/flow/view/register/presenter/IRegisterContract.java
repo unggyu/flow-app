@@ -2,7 +2,7 @@ package kr.hs.dgsw.flow.view.register.presenter;
 
 import kr.hs.dgsw.flow.base.BasePresenter;
 import kr.hs.dgsw.flow.base.BaseView;
-import kr.hs.dgsw.flow.view.register.model.body.RegisterRequestBody;
+import kr.hs.dgsw.flow.util.retrofit.model.signup.RegisterRequestBody;
 
 public interface IRegisterContract {
     interface View extends BaseView {

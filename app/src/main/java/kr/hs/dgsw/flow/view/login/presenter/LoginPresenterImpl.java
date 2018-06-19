@@ -4,10 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import kr.hs.dgsw.flow.data.model.EditData;
-import kr.hs.dgsw.flow.data.realm.token.TokenHelper;
 import kr.hs.dgsw.flow.view.login.model.LoginData;
-import kr.hs.dgsw.flow.view.login.model.body.LoginRequestBody;
-import kr.hs.dgsw.flow.view.login.model.body.LoginResponseBody;
+import kr.hs.dgsw.flow.util.retrofit.model.signin.LoginRequestBody;
+import kr.hs.dgsw.flow.util.retrofit.model.signin.LoginResponseBody;
 import retrofit2.Response;
 
 public class LoginPresenterImpl implements ILoginContract.Presenter {

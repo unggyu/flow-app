@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="12dp"
     tools:context=".view.noticedetails.NoticeDetailsActivity">
 
     <ProgressBar
@@ -23,7 +22,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,9 +75,17 @@
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="18sp" />
 
-            <ExpandableListView
+            <Button
+                android:id="@+id/notice_details_attached_file_button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></ExpandableListView>
+                android:layout_height="wrap_content"
+                android:text="첨부파일" />
+
+            <ListView
+                android:id="@+id/notice_details_attached_file_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
 
         </LinearLayout>
     </ScrollView>

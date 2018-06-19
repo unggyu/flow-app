@@ -32,7 +32,6 @@ public class FlowMessagingService extends FirebaseMessagingService {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         Map<String, String> data = remoteMessage.getData();
         if (notification != null && data != null && !data.isEmpty()) {
-
             sendNotification(notification.getTitle(), notification.getBody(), data);
         }
     }

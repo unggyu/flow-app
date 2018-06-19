@@ -1,11 +1,9 @@
 package kr.hs.dgsw.flow.view.notice.adapter;
 
-import android.widget.AdapterView;
-
 import java.util.ArrayList;
 
 import kr.hs.dgsw.flow.view.notice.listener.OnItemClickListener;
-import kr.hs.dgsw.flow.view.notice.model.ResponseNoticeItem;
+import kr.hs.dgsw.flow.util.retrofit.model.notice.ResponseNoticeItem;
 
 public interface INoticeAdapterContract {
     interface View {

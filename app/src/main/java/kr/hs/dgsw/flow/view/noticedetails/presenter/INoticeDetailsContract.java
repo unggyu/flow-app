@@ -2,6 +2,7 @@ package kr.hs.dgsw.flow.view.noticedetails.presenter;
 
 import kr.hs.dgsw.flow.base.BasePresenter;
 import kr.hs.dgsw.flow.base.BaseView;
+import kr.hs.dgsw.flow.view.noticedetails.adapter.IAttachedFileListViewAdapter;
 
 public interface INoticeDetailsContract {
     interface View extends BaseView {
@@ -10,9 +11,15 @@ public interface INoticeDetailsContract {
         void showWriteDate(String date);
         void showModifyDate(String date);
         void showContent(String content);
+        void showAttachedFileListView(final boolean show);
     }
 
     interface Presenter extends BasePresenter<View> {
+        void setAttachedFileListViewAdapterView(IAttachedFileListViewAdapter.View adapterView);
+        void setAttachedFileListViewAdapterModel(IAttachedFileListViewAdapter.Model adapterModel);
+
+        void onAttachedFileButtonClick(int visibility);
+
         void loadNotice(int idx);
     }
 }

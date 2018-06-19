@@ -4,17 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import kr.hs.dgsw.flow.data.model.EditData;
 import kr.hs.dgsw.flow.data.realm.login.LoginHelper;
 import kr.hs.dgsw.flow.data.realm.out.OutHelper;
 import kr.hs.dgsw.flow.data.realm.user.model.User;
-import kr.hs.dgsw.flow.util.Utils;
+import kr.hs.dgsw.flow.util.FlowUtils;
 import kr.hs.dgsw.flow.view.out.model.Enum.OutType;
-import kr.hs.dgsw.flow.view.out.model.body.ResponseOut;
+import kr.hs.dgsw.flow.util.retrofit.model.out.ResponseOut;
 
 public class OutData {
     private LoginHelper mLoginHelper;
@@ -192,8 +190,8 @@ public class OutData {
                     user,
                     responseOut.getIdx(),
                     outType == OutType.SHORT ? 0 : 1,
-                    Utils.dateFormat(responseOut.getStartTime()),
-                    Utils.dateFormat(responseOut.getEndTime()),
+                    FlowUtils.dateFormat(responseOut.getStartTime()),
+                    FlowUtils.dateFormat(responseOut.getEndTime()),
                     responseOut.getReason()
             );
         }

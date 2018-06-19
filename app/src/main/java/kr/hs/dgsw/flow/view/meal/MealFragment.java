@@ -20,6 +20,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import co.ceryle.segmentedbutton.SegmentedButtonGroup;
 import kr.hs.dgsw.flow.R;
 import kr.hs.dgsw.flow.view.main.MainActivity;
 import kr.hs.dgsw.flow.view.meal.custom.MealButton;
@@ -37,6 +38,9 @@ public class MealFragment extends Fragment implements IMealContract.View {
      */
     private OnFragmentInteractionListener mListener;
 
+    @BindView(R.id.meal_notice)
+    public TextView mNoticeView;
+
     @BindView(R.id.meal_progress)
     public ProgressBar mProgressView;
 
@@ -48,6 +52,9 @@ public class MealFragment extends Fragment implements IMealContract.View {
 
     @BindView(R.id.meal_text_view)
     public TextView mTextView;
+
+    @BindView(R.id.meal_buttons_group)
+    public SegmentedButtonGroup mMealButtonGroup;
 
     private IMealContract.Presenter mPresenter;
 
@@ -69,6 +76,9 @@ public class MealFragment extends Fragment implements IMealContract.View {
         View view = inflater.inflate(R.layout.fragment_meal, container, false);
 
         ButterKnife.bind(this, view);
+
+        mMealButtonGroup.setOnClickedButtonPosition((position) ->
+                mPresenter.onMealButtonClick(MealType.values()[position]));
 
         return view;
     }
@@ -117,14 +127,6 @@ public class MealFragment extends Fragment implements IMealContract.View {
         mPresenter.onDatePickButtonClick();
     }
 
-    @OnClick({ R.id.meal_breakfast_button,
-               R.id.meal_lunch_button,
-               R.id.meal_dinner_button })
-    public void onMealButtonClick(View view) {
-        MealType mealType = ((MealButton) view).getMealType();
-        mPresenter.onMealButtonClick(mealType);
-    }
-
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
@@ -152,6 +154,7 @@ public class MealFragment extends Fragment implements IMealContract.View {
             mMainView.setVisibility(show ? View.GONE : View.VISIBLE);
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
         }
+        mNoticeView.setVisibility(View.GONE);
     }
 
     @Override
@@ -170,6 +173,20 @@ public class MealFragment extends Fragment implements IMealContract.View {
                 mPresenter.onDatePickerDialogDateSet(year, month, day),
                 defaultYear, defaultMonth, defaultDay
         ).show();
+    }
+
+    @Override
+    public void showMessage(String msg) {
+        mNoticeView.setText(msg);
+        mNoticeView.setVisibility(msg != null ? View.VISIBLE : View.GONE);
+        mMainView.setVisibility(msg != null ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public void setSelectedMealButton(MealType mealType) {
+        if (mMealButtonGroup.getPosition() != mealType.ordinal()) {
+            mMealButtonGroup.setPosition(mealType.ordinal(), 0);
+        }
     }
 
     @Override

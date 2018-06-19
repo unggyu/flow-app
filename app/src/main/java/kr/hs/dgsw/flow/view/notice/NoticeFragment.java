@@ -2,7 +2,6 @@ package kr.hs.dgsw.flow.view.notice;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -17,19 +16,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kr.hs.dgsw.flow.R;
 import kr.hs.dgsw.flow.view.main.MainActivity;
 import kr.hs.dgsw.flow.view.notice.adapter.NoticeAdapter;
-import kr.hs.dgsw.flow.view.notice.model.ResponseNoticeItem;
 import kr.hs.dgsw.flow.view.notice.presenter.INoticeContract;
 import kr.hs.dgsw.flow.view.notice.presenter.NoticePresenterImpl;
 import kr.hs.dgsw.flow.view.noticedetails.NoticeDetailsActivity;

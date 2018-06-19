@@ -11,13 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kr.hs.dgsw.flow.R;
 import kr.hs.dgsw.flow.data.realm.out.model.Out;
-import kr.hs.dgsw.flow.view.out.model.body.ResponseOut;
 
 public class TicketAdapter
         extends RecyclerView.Adapter<TicketAdapter.ViewHolder> {

@@ -7,12 +7,12 @@ import java.text.ParseException;
 import java.util.Calendar;
 
 import kr.hs.dgsw.flow.data.model.EditData;
-import kr.hs.dgsw.flow.util.retrofit.FlowUtils;
+import kr.hs.dgsw.flow.util.FlowUtils;
 import kr.hs.dgsw.flow.view.out.model.Enum.OutType;
 import kr.hs.dgsw.flow.view.out.model.OutData;
-import kr.hs.dgsw.flow.view.out.model.body.OutRequestBody;
-import kr.hs.dgsw.flow.view.out.model.body.OutResponseBody;
-import kr.hs.dgsw.flow.view.out.model.body.ResponseOut;
+import kr.hs.dgsw.flow.util.retrofit.model.out.OutRequestBody;
+import kr.hs.dgsw.flow.util.retrofit.model.out.OutResponseBody;
+import kr.hs.dgsw.flow.util.retrofit.model.out.ResponseOut;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

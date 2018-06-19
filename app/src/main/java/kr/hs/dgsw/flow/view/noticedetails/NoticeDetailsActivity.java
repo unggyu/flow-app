@@ -7,6 +7,9 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -14,7 +17,9 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.view.noticedetails.adapter.AttachedFileListViewAdapter;
 import kr.hs.dgsw.flow.view.noticedetails.presenter.INoticeDetailsContract;
 import kr.hs.dgsw.flow.view.noticedetails.presenter.NoticeDetailsPresenterImpl;
 
@@ -38,6 +43,9 @@ public class NoticeDetailsActivity extends AppCompatActivity implements INoticeD
     @BindView(R.id.notice_details_content)
     public TextView mContentView;
 
+    @BindView(R.id.notice_details_attached_file_listview)
+    public ListView mListView;
+
     private INoticeDetailsContract.Presenter mPresenter;
 
     @Override
@@ -48,7 +56,22 @@ public class NoticeDetailsActivity extends AppCompatActivity implements INoticeD
         ButterKnife.bind(this);
 
         int noticeIdx = getIntent().getIntExtra("idx", -1);
-        mPresenter = new NoticeDetailsPresenterImpl(this, this, noticeIdx);
+        mPresenter = new NoticeDetailsPresenterImpl(this, this);
+
+        AttachedFileListViewAdapter adapter = new AttachedFileListViewAdapter(this);
+        mPresenter.setAttachedFileListViewAdapterView(adapter);
+        mPresenter.setAttachedFileListViewAdapterModel(adapter);
+
+        // 선택된 공지를 서버로 부터 불러와 띄어줌
+        mPresenter.loadNotice(noticeIdx);
+
+        mListView.setAdapter(adapter);
+    }
+
+    @OnClick(R.id.notice_details_attached_file_button)
+    public void onAttachedFileButtonClick(View view) {
+        int visibility = mListView.getVisibility();
+        mPresenter.onAttachedFileButtonClick(visibility);
     }
 
     @Override
@@ -104,5 +127,29 @@ public class NoticeDetailsActivity extends AppCompatActivity implements INoticeD
     @Override
     public void showContent(String content) {
         mContentView.setText(content);
+    }
+
+    @Override
+    public void showAttachedFileListView(boolean show) {
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        Animation slideDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+
+        Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) { }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mListView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) { }
+        };
+
+        slideUp.setAnimationListener(animationListener);
+        slideDown.setAnimationListener(animationListener);
+
+        mListView.startAnimation(show ? slideDown : slideUp);
     }
 }

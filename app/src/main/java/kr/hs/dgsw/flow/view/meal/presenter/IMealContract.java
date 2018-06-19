@@ -14,6 +14,9 @@ public interface IMealContract {
         void showDate(int year, int month, int day, MealType mealType);
         void showMeal(String meal);
         void showDatePickerDialog(int defaultYear, int defaultMonth, int defaultDay);
+        void showMessage(String msg);
+
+        void setSelectedMealButton(MealType mealType);
 
         void showMessageToast(String msg);
     }

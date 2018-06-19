@@ -1,9 +1,14 @@
 package kr.hs.dgsw.flow.view.meal.presenter;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 
 import java.util.Calendar;
 
+import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.application.FlowApplication;
 import kr.hs.dgsw.flow.view.meal.model.Enum.MealType;
 import kr.hs.dgsw.flow.view.meal.model.MealData;
 
@@ -18,7 +23,7 @@ public class MealPresenterImpl implements IMealContract.Presenter {
     private MealData mMealData;
 
     public MealPresenterImpl(@NonNull IMealContract.View view) {
-        this.mView = view;
+        mView = view;
 
         Calendar cal = Calendar.getInstance();
 
@@ -28,7 +33,13 @@ public class MealPresenterImpl implements IMealContract.Presenter {
 
         this.mMealData = new MealData(year, month, day);
 
-        loadAndShow(year, month, day);
+        NetworkInfo networkState = FlowApplication.getNetworkInfo();
+        if (networkState.isConnected()) {
+            loadAndShow(year, month, day);
+        } else {
+            mView.showMessage(FlowApplication.getContext()
+                    .getString(R.string.error_not_connected_to_internet));
+        }
     }
 
     @Override
@@ -80,18 +91,11 @@ public class MealPresenterImpl implements IMealContract.Presenter {
     @Override
     public void onMealButtonClick(MealType mealType) {
         if (mealType != null) {
-            int dayOfMonth = mMealData.getMealDay();
-            String meal = mMealData.getMeal(dayOfMonth, mealType);
-
             int year = mMealData.getMealYear();
             int month = mMealData.getMealMonth();
             int day = mMealData.getMealDay();
 
-            mView.showDate(year, month, day, mealType);
-            mView.showMeal(meal);
-
-            mMealData.setMealType(mealType);
-            mMealData.setMealDate(year, month, day);
+            showMealData(year, month, day, mealType);
         }
     }
 
@@ -110,13 +114,23 @@ public class MealPresenterImpl implements IMealContract.Presenter {
      */
     @Override
     public void showMealData(int year, int month, int day, MealType mealType) {
+        mMealData.setMealDate(year, month, day);
+        mMealData.setMealType(mealType);
+
+        // 다음 날 아침의 경우를 처리
+        if (MealType.NEXT_DAY_BREAKFAST == mealType) {
+            year = mMealData.getMealYear();
+            month = mMealData.getMealMonth();
+            day = mMealData.getMealDay();
+            mealType = mMealData.getMealType();
+        }
+
         String meal = mMealData.getMeal(day, mealType);
 
         mView.showDate(year, month, day, mealType);
         mView.showMeal(meal);
+        mView.setSelectedMealButton(mealType);
 
-        mMealData.setMealType(mealType);
-        mMealData.setMealDate(year, month, day);
     }
 
     @Override

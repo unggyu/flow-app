@@ -1,37 +1,41 @@
 package kr.hs.dgsw.flow.view.noticedetails.presenter;
 
+import android.app.DownloadManager;
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import kr.hs.dgsw.flow.data.realm.login.LoginHelper;
-import kr.hs.dgsw.flow.util.Utils;
-import kr.hs.dgsw.flow.util.retrofit.FlowUtils;
-import kr.hs.dgsw.flow.view.notice.model.ResponseNoticeItem;
-import kr.hs.dgsw.flow.view.noticedetails.model.body.NoticeDetailsResponseBody;
+import kr.hs.dgsw.flow.util.FlowUtils;
+import kr.hs.dgsw.flow.util.retrofit.model.notice.ResponseNoticeFile;
+import kr.hs.dgsw.flow.util.retrofit.model.notice.ResponseNoticeItem;
+import kr.hs.dgsw.flow.util.retrofit.model.notice.NoticeDetailsResponseBody;
+import kr.hs.dgsw.flow.view.noticedetails.adapter.IAttachedFileListViewAdapter;
+import kr.hs.dgsw.flow.view.noticedetails.listener.OnDownloadButtonClickListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NoticeDetailsPresenterImpl implements INoticeDetailsContract.Presenter {
+public class NoticeDetailsPresenterImpl implements INoticeDetailsContract.Presenter, OnDownloadButtonClickListener {
 
     private LoginHelper mLoginHelper;
 
+    private Context mContext;
+
     private INoticeDetailsContract.View mView;
 
-    public NoticeDetailsPresenterImpl(INoticeDetailsContract.View view, Context context, int noticeIdx) {
+    private IAttachedFileListViewAdapter.View mAdapterView;
+    private IAttachedFileListViewAdapter.Model mAdapterModel;
+
+    public NoticeDetailsPresenterImpl(INoticeDetailsContract.View view, Context context) {
         mView = view;
-
-        if (noticeIdx == -1) {
-            mView.showMessageToast("공지 인덱스 오류");
-            return;
-        }
-
+        mContext = context;
         mLoginHelper = new LoginHelper(context);
-
-        // 선택된 공지를 서버로 부터 불러와 띄어줌
-        loadNotice(noticeIdx);
     }
 
     @Override
@@ -42,6 +46,22 @@ public class NoticeDetailsPresenterImpl implements INoticeDetailsContract.Presen
     @Override
     public void onDestroy() {
         mView = null;
+    }
+
+    @Override
+    public void setAttachedFileListViewAdapterView(IAttachedFileListViewAdapter.View adapterView) {
+        mAdapterView = adapterView;
+        mAdapterView.setOnDownloadButtonClickListener(this);
+    }
+
+    @Override
+    public void setAttachedFileListViewAdapterModel(IAttachedFileListViewAdapter.Model adapterModel) {
+        mAdapterModel = adapterModel;
+    }
+
+    @Override
+    public void onAttachedFileButtonClick(int visibility) {
+        mView.showAttachedFileListView(visibility != View.VISIBLE);
     }
 
     @Override
@@ -81,13 +101,35 @@ public class NoticeDetailsPresenterImpl implements INoticeDetailsContract.Presen
     private void onSuccessful(@NonNull ResponseNoticeItem noticeItem) throws ParseException {
         mView.showWriter(noticeItem.getWriter());
 
-        String writeDate = Utils.dateFormat(noticeItem.getWriteDate());
+        String writeDate = FlowUtils.dateFormat(noticeItem.getWriteDate());
         mView.showWriteDate(writeDate);
         if (!noticeItem.getWriteDate().equals(noticeItem.getModifyDate())) {
             // 만약에 쓴 시간과 수정한 시간이 다르다면 수정한 시간을 표시
-            String modifyDate = Utils.dateFormat(noticeItem.getModifyDate());
+            String modifyDate = FlowUtils.dateFormat(noticeItem.getModifyDate());
             mView.showModifyDate(modifyDate + " 수정됨");
         }
         mView.showContent(noticeItem.getContent());
+
+        // ArrayList로 변환
+        ArrayList<ResponseNoticeFile> noticeFiles =
+                new ArrayList<>(Arrays.asList(noticeItem.getNoticeFiles()));
+
+        // 어뎁터에 첨부파일들 삽입
+        mAdapterModel.addAll(noticeFiles);
+        mAdapterView.notifyAdapter();
+    }
+
+    @Override
+    public void onDownloadButtonClick(String url, String fileName) {
+        DownloadManager downloadManager =
+                (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
+
+        Uri uri = Uri.parse(FlowUtils.BASE_URL + "/" + url);
+
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        // 다운로드 진행
+        Long reference = downloadManager.enqueue(request);
     }
 }
