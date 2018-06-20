@@ -11,7 +11,7 @@ public interface INoticeDetailsContract {
         void showWriteDate(String date);
         void showModifyDate(String date);
         void showContent(String content);
-        void showAttachedFileButton(final boolean show);
+        void showAttachedFileToggleButton(final boolean show);
         void showAttachedFileListView(final boolean show);
     }
 
@@ -19,7 +19,7 @@ public interface INoticeDetailsContract {
         void setAttachedFileListViewAdapterView(IAttachedFileListViewAdapter.View adapterView);
         void setAttachedFileListViewAdapterModel(IAttachedFileListViewAdapter.Model adapterModel);
 
-        void onAttachedFileButtonClick(int visibility);
+        void onAttachedFileToggleButtonCheckedChanged(boolean isChecked);
 
         void loadNotice(int idx);
     }

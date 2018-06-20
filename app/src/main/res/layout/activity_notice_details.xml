@@ -75,12 +75,13 @@
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="18sp" />
 
-            <Button
-                android:id="@+id/notice_details_attached_file_button"
+            <ToggleButton
+                android:id="@+id/notice_details_attached_file_toggle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="첨부파일"
-                android:visibility="visible" />
+                android:text="ToggleButton"
+                android:textOff="첨부파일 목록 열기"
+                android:textOn="첨부파일 목록 닫기" />
 
             <ListView
                 android:id="@+id/notice_details_attached_file_listview"

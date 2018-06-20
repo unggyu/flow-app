@@ -10,14 +10,17 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import kr.hs.dgsw.flow.R;
 import kr.hs.dgsw.flow.view.noticedetails.adapter.AttachedFileListViewAdapter;
@@ -47,8 +50,8 @@ public class NoticeDetailsActivity extends AppCompatActivity implements INoticeD
     @BindView(R.id.notice_details_attached_file_listview)
     public ListView mAttachedFileListView;
 
-    @BindView(R.id.notice_details_attached_file_button)
-    public Button mAttachedFileButton;
+    @BindView(R.id.notice_details_attached_file_toggle)
+    public ToggleButton mAttachedFileToggle;
 
     private INoticeDetailsContract.Presenter mPresenter;
 
@@ -72,10 +75,9 @@ public class NoticeDetailsActivity extends AppCompatActivity implements INoticeD
         mAttachedFileListView.setAdapter(adapter);
     }
 
-    @OnClick(R.id.notice_details_attached_file_button)
-    public void onAttachedFileButtonClick(View view) {
-        int visibility = mAttachedFileListView.getVisibility();
-        mPresenter.onAttachedFileButtonClick(visibility);
+    @OnCheckedChanged(R.id.notice_details_attached_file_toggle)
+    public void onAttachedFileToggleButtonCheckedChanged(CompoundButton button, boolean isChecked) {
+        mPresenter.onAttachedFileToggleButtonCheckedChanged(isChecked);
     }
 
     @Override
@@ -134,8 +136,8 @@ public class NoticeDetailsActivity extends AppCompatActivity implements INoticeD
     }
 
     @Override
-    public void showAttachedFileButton(boolean show) {
-        mAttachedFileButton.setVisibility(show ? View.VISIBLE : View.GONE);
+    public void showAttachedFileToggleButton(boolean show) {
+        mAttachedFileToggle.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override

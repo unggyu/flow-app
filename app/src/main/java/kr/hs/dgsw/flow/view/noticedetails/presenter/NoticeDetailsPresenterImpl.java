@@ -60,8 +60,8 @@ public class NoticeDetailsPresenterImpl implements INoticeDetailsContract.Presen
     }
 
     @Override
-    public void onAttachedFileButtonClick(int visibility) {
-        mView.showAttachedFileListView(visibility != View.VISIBLE);
+    public void onAttachedFileToggleButtonCheckedChanged(boolean isChecked) {
+        mView.showAttachedFileListView(isChecked);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class NoticeDetailsPresenterImpl implements INoticeDetailsContract.Presen
         mAdapterView.notifyAdapter();
 
         // 첨부파일이 존재할 때만 첨부파일 버튼 보이게
-        mView.showAttachedFileButton(noticeFiles.size() > 0);
+        mView.showAttachedFileToggleButton(noticeFiles.size() > 0);
     }
 
     @Override
