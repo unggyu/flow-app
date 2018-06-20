@@ -117,6 +117,9 @@ public class NoticeDetailsPresenterImpl implements INoticeDetailsContract.Presen
         // 어뎁터에 첨부파일들 삽입
         mAdapterModel.addAll(noticeFiles);
         mAdapterView.notifyAdapter();
+
+        // 첨부파일이 존재할 때만 첨부파일 버튼 보이게
+        mView.showAttachedFileButton(noticeFiles.size() > 0);
     }
 
     @Override
@@ -130,6 +133,6 @@ public class NoticeDetailsPresenterImpl implements INoticeDetailsContract.Presen
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
         // 다운로드 진행
-        Long reference = downloadManager.enqueue(request);
+        downloadManager.enqueue(request);
     }
 }
