@@ -40,8 +40,8 @@ public class NoticeFragment extends Fragment implements INoticeContract.View {
     @BindView(R.id.notice_recycler)
     public RecyclerView mRecyclerView;
 
-    @BindView(R.id.notice_none)
-    public TextView mNoneNoticeView;
+    @BindView(R.id.notice_notice)
+    public TextView mNoticeView;
 
     private INoticeContract.Presenter mPresenter;
 
@@ -157,13 +157,14 @@ public class NoticeFragment extends Fragment implements INoticeContract.View {
             mRefreshView.setVisibility(show ? View.GONE : View.VISIBLE);
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
         }
-        mNoneNoticeView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mNoticeView.setVisibility(View.GONE);
     }
 
     @Override
-    public void showNoneNotice(final boolean show) {
-        mNoneNoticeView.setVisibility(show ? View.VISIBLE : View.GONE);
-        mRefreshView.setVisibility(show ? View.GONE : View.VISIBLE);
+    public void showMessage(String msg) {
+        mNoticeView.setText(msg);
+        mNoticeView.setVisibility(msg != null ? View.VISIBLE : View.GONE);
+        mRefreshView.setVisibility(msg != null ? View.GONE : View.VISIBLE);
     }
 
     @Override

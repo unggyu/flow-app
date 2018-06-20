@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/navigation_meal"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_restaurant_black"
         android:title="@string/title_meal" />
     <item
         android:id="@+id/navigation_out"

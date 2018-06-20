@@ -2,6 +2,8 @@ package kr.hs.dgsw.flow.view.register.presenter;
 
 import android.support.annotation.NonNull;
 
+import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.application.FlowApplication;
 import kr.hs.dgsw.flow.data.model.EditData;
 import kr.hs.dgsw.flow.view.register.model.RegisterData;
 import kr.hs.dgsw.flow.util.retrofit.model.signup.RegisterRequestBody;
@@ -37,7 +39,8 @@ public class RegisterPresenterImpl implements IRegisterContract.Presenter {
 
         if (name.isEmpty()) {
             nameData.setValid(false);
-            mView.setNameError(RegisterData.STR_NAME_EMPTY_ERROR);
+            mView.setNameError(FlowApplication.getContext()
+                    .getString(R.string.error_email_empty));
             return;
         }
 
@@ -54,13 +57,15 @@ public class RegisterPresenterImpl implements IRegisterContract.Presenter {
 
         if (number.isEmpty()) {
             numberData.setValid(false);
-            mView.setNumberError(RegisterData.STR_NUMBER_EMPTY_ERROR);
+            mView.setNumberError(FlowApplication.getContext()
+                    .getString(R.string.error_number_empty));
             return;
         }
 
         if (!mRegisterData.isValidNumber(number)) {
             numberData.setValid(false);
-            mView.setNumberError(RegisterData.STR_NUMBER_ERROR);
+            mView.setNumberError(FlowApplication.getContext()
+                    .getString(R.string.error_number));
             return;
         }
 
@@ -77,13 +82,15 @@ public class RegisterPresenterImpl implements IRegisterContract.Presenter {
 
         if (cellphone.isEmpty()) {
             cellphoneData.setValid(false);
-            mView.setCellphoneError(RegisterData.STR_CELLPHONE_EMPTY_ERROR);
+            mView.setCellphoneError(FlowApplication.getContext()
+                    .getString(R.string.error_cellphone_empty));
             return;
         }
 
         if (!mRegisterData.isValidCellphone(cellphone)) {
             cellphoneData.setValid(false);
-            mView.setCellphoneError(RegisterData.STR_CELLPHONE_ERROR);
+            mView.setCellphoneError(FlowApplication.getContext()
+                    .getString(R.string.error_cellphone));
             return;
         }
 
@@ -100,13 +107,15 @@ public class RegisterPresenterImpl implements IRegisterContract.Presenter {
 
         if (email.isEmpty()) {
             emailData.setValid(false);
-            mView.setEmailError(RegisterData.STR_EMAIL_EMPTY_ERROR);
+            mView.setEmailError(FlowApplication.getContext()
+                    .getString(R.string.error_email_empty));
             return;
         }
 
         if (!mRegisterData.isValidEmail(email)) {
             emailData.setValid(false);
-            mView.setEmailError(RegisterData.STR_EMAIL_ERROR);
+            mView.setEmailError(FlowApplication.getContext()
+                    .getString(R.string.error_email));
             return;
         }
 
@@ -123,13 +132,15 @@ public class RegisterPresenterImpl implements IRegisterContract.Presenter {
 
         if (password.isEmpty()) {
             passwordData.setValid(false);
-            mView.setPasswordError(RegisterData.STR_PASSWORD_EMPTY_ERROR);
+            mView.setPasswordError(FlowApplication.getContext()
+                    .getString(R.string.error_password_empty));
             return;
         }
 
         if (!mRegisterData.isValidPassword(password)) {
             passwordData.setValid(false);
-            mView.setPasswordError(RegisterData.STR_PASSWORD_ERROR);
+            mView.setPasswordError(FlowApplication.getContext()
+                    .getString(R.string.error_password));
             return;
         }
 
@@ -146,14 +157,16 @@ public class RegisterPresenterImpl implements IRegisterContract.Presenter {
 
         if (confirmPassword.isEmpty()) {
             confirmPasswordData.setValid(false);
-            mView.setConfirmPasswordError(RegisterData.STR_CONFIRM_PASSWORD_EMPTY_ERROR);
+            mView.setConfirmPasswordError(FlowApplication.getContext()
+                    .getString(R.string.error_confirm_password_empty));
             return;
         }
 
         String password = mRegisterData.getPassword().getData();
         if (!password.equals(confirmPassword)) {
             confirmPasswordData.setValid(false);
-            mView.setConfirmPasswordError(RegisterData.STR_CONFIRM_PASSWORD_INCORRECT_ERROR);
+            mView.setConfirmPasswordError(FlowApplication.getContext()
+                    .getString(R.string.error_confirm_password_incorrect));
             return;
         }
 
@@ -175,12 +188,19 @@ public class RegisterPresenterImpl implements IRegisterContract.Presenter {
             RegisterRequestBody requestBody = mRegisterData.makeRegisterRequestBody();
             this.attemptRegister(requestBody);
         } else {
-            mView.showMessageToast(RegisterData.STR_REGISTER_FIELD_ERROR);
+            mView.showMessageToast(FlowApplication.getContext()
+                    .getString(R.string.error_register_field));
         }
     }
 
     @Override
     public void attemptRegister(RegisterRequestBody requestBody) {
+        if (!FlowApplication.getConnectivityStatus()) {
+            mView.showMessageToast(FlowApplication.getContext()
+                    .getString(R.string.error_not_connected_to_internet));
+            return;
+        }
+
         mView.showProgress(true);
 
         mRegisterData.callSignUp(requestBody, new RegisterData.RegisterCallback() {

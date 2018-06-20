@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity
             switch (type) {
                 case "go_out":
                 case "sleep_out":
+                    // 외출/외박인 경우 DB업뎃 후 액티비티 이동
                     outType = type.equals("go_out") ? OutType.SHORT : OutType.LONG;
 
                     int outIdx = Integer.parseInt(intent.getStringExtra("idx"));
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity
                     startActivity(outIntent);
                     break;
                 case "notice":
+                    // 공지인 경우 해당 프래그먼트로 이동
                     mNavigationView.setSelectedItemId(R.id.navigation_notifications);
                     break;
             }

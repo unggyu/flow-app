@@ -31,26 +31,35 @@ public class FlowMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         Map<String, String> data = remoteMessage.getData();
+
         if (notification != null && data != null && !data.isEmpty()) {
-            sendNotification(notification.getTitle(), notification.getBody(), data);
+            String type = data.get("type");
+            if (type.equals("go_out") || type.equals("sleep_out")) {
+                // 렐름을 이용할 수 있는 서비스를 이용하여 DB작업 수행
+                Intent realmIntent = new Intent(this, OutRealmService.class);
+                realmIntent.putExtra("type", type);
+                realmIntent.putExtra("serverIdx", Integer.parseInt(data.get("idx")));
+                startService(realmIntent);
+            }
+
+            // 알림 띄움
+            sendNotification(notification.getTitle(), notification.getBody(), data.get("type"));
         }
     }
 
-    private void sendNotification(String title, String body, Map<String, String> data) {
+    private void sendNotification(String title, String body, String type) {
         Intent intent = null;
-        String type = data.get("type");
-        if (type.equals("go_out") || type.equals("sleep_out")) {
-            // 외출/외박인 경우 외출/외박 액티비티로 이동
-            intent = new Intent(Foreground.get().getNowActivity(), TicketActivity.class);
-
-            Intent realmIntent = new Intent(this, OutRealmService.class);
-            realmIntent.putExtra("type", type);
-            realmIntent.putExtra("serverIdx", Integer.parseInt(data.get("idx")));
-            startService(realmIntent);
-        } else if (type.equals("notice")) {
-            // MainActivity에있는 공지 Fragment로 이동
-            intent = new Intent(Foreground.get().getNowActivity(), MainActivity.class);
-            intent.putExtra("defaultItemId", R.id.navigation_notifications);
+        switch (type) {
+            case "go_out":
+            case "sleep_out":
+                // 외출/외박인 경우 외출/외박 액티비티로 이동
+                intent = new Intent(Foreground.get().getNowActivity(), TicketActivity.class);
+                break;
+            case "notice":
+                // MainActivity에있는 공지 Fragment로 이동
+                intent = new Intent(Foreground.get().getNowActivity(), MainActivity.class);
+                intent.putExtra("defaultItemId", R.id.navigation_notifications);
+                break;
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -61,7 +70,7 @@ public class FlowMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.drawable.ic_notification_none)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)

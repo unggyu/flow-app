@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -44,7 +45,10 @@ public class NoticeDetailsActivity extends AppCompatActivity implements INoticeD
     public TextView mContentView;
 
     @BindView(R.id.notice_details_attached_file_listview)
-    public ListView mListView;
+    public ListView mAttachedFileListView;
+
+    @BindView(R.id.notice_details_attached_file_button)
+    public Button mAttachedFileButton;
 
     private INoticeDetailsContract.Presenter mPresenter;
 
@@ -65,12 +69,12 @@ public class NoticeDetailsActivity extends AppCompatActivity implements INoticeD
         // 선택된 공지를 서버로 부터 불러와 띄어줌
         mPresenter.loadNotice(noticeIdx);
 
-        mListView.setAdapter(adapter);
+        mAttachedFileListView.setAdapter(adapter);
     }
 
     @OnClick(R.id.notice_details_attached_file_button)
     public void onAttachedFileButtonClick(View view) {
-        int visibility = mListView.getVisibility();
+        int visibility = mAttachedFileListView.getVisibility();
         mPresenter.onAttachedFileButtonClick(visibility);
     }
 
@@ -130,6 +134,11 @@ public class NoticeDetailsActivity extends AppCompatActivity implements INoticeD
     }
 
     @Override
+    public void showAttachedFileButton(boolean show) {
+        mAttachedFileButton.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
     public void showAttachedFileListView(boolean show) {
         Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
         Animation slideDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
@@ -140,7 +149,7 @@ public class NoticeDetailsActivity extends AppCompatActivity implements INoticeD
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mListView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+                mAttachedFileListView.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
             }
 
             @Override
@@ -150,6 +159,6 @@ public class NoticeDetailsActivity extends AppCompatActivity implements INoticeD
         slideUp.setAnimationListener(animationListener);
         slideDown.setAnimationListener(animationListener);
 
-        mListView.startAnimation(show ? slideDown : slideUp);
+        mAttachedFileListView.startAnimation(show ? slideDown : slideUp);
     }
 }

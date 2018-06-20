@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import java.text.ParseException;
 import java.util.Calendar;
 
+import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.application.FlowApplication;
 import kr.hs.dgsw.flow.data.model.EditData;
 import kr.hs.dgsw.flow.util.FlowUtils;
 import kr.hs.dgsw.flow.view.out.model.Enum.OutType;
@@ -133,7 +135,8 @@ public class OutPresenterImpl implements IOutContract.Presenter {
 
         if (reason.isEmpty()) {
             reasonData.setValid(false);
-            mView.setReasonError("이유를 입력해주세요");
+            mView.setReasonError(FlowApplication.getContext()
+                    .getString(R.string.error_enter_reason));
             return;
         }
 
@@ -143,19 +146,27 @@ public class OutPresenterImpl implements IOutContract.Presenter {
 
     @Override
     public void applyOut() {
+        if (!FlowApplication.getConnectivityStatus()) {
+            mView.showMessageToast(FlowApplication.getContext()
+                    .getString(R.string.error_not_connected_to_internet));
+        }
+
         if (!mOutData.isLoggedIn()) {
-            mView.showMessageToast("로그인 되어있지 않습니다.");
+            mView.showMessageToast(FlowApplication.getContext()
+                    .getString(R.string.error_not_logged_in));
             return;
         }
 
         if (!mOutData.getReason().isValid()) {
-            mView.setReasonError("이유를 입력해주세요");
+            mView.setReasonError(FlowApplication.getContext()
+                    .getString(R.string.error_enter_reason));
             mView.focusReason();
             return;
         }
 
         if (!mOutData.isDateTimeValid()) {
-            mView.showMessageToast("날짜를 제대로 선택해주세요");
+            mView.showMessageToast(FlowApplication.getContext()
+                    .getString(R.string.error_enter_correct_date));
             return;
         }
 

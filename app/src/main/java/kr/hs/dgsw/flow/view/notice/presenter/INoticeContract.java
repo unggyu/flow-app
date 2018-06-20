@@ -8,7 +8,7 @@ import kr.hs.dgsw.flow.util.retrofit.model.notice.ResponseData;
 public interface INoticeContract {
     interface View extends BaseView {
         void showProgress(final boolean show);
-        void showNoneNotice(final boolean show);
+        void showMessage(String msg);
 
         void navigateToNoticeDetails(int noticeIdx);
     }

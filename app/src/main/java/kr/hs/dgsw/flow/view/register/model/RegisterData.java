@@ -11,44 +11,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterData {
-
     private static RegisterData registerData;
-
-    public static final String STR_REGISTER_FIELD_ERROR =
-            "제대로 빠짐없이 모두 입력해주세요";
-
-    public static final String STR_NAME_EMPTY_ERROR =
-            "이름을 입력해주세요";
-
-    public static final String STR_NUMBER_EMPTY_ERROR =
-            "번호를 입력해주세요";
-
-    public static final String STR_NUMBER_ERROR =
-            "1이상 20이하의 정수를 입력해주세요";
-
-    public static final String STR_CELLPHONE_EMPTY_ERROR =
-            "휴대폰 번호를 입력해주세요";
-
-    public static final String STR_CELLPHONE_ERROR =
-            "'-'를 제거하고 11자의 숫자를 입력해주세요";
-
-    public static final String STR_EMAIL_EMPTY_ERROR =
-            "이메일 주소를 입력해주세요";
-
-    public static final String STR_EMAIL_ERROR =
-            "대소고 이메일 포맷형식으로 입력해주세요";
-
-    public static final String STR_PASSWORD_EMPTY_ERROR =
-            "비밀번호를 입력해주세요";
-
-    public static final String STR_PASSWORD_ERROR =
-            "비밀번호 포맷형식으로 입력해주세요";
-
-    public static final String STR_CONFIRM_PASSWORD_EMPTY_ERROR =
-            "확인 비밀번호를 입력해주세요";
-
-    public static final String STR_CONFIRM_PASSWORD_INCORRECT_ERROR =
-            "비밀번호가 맞지 않습니다";
 
     private EditData name;
     private EditData gender;

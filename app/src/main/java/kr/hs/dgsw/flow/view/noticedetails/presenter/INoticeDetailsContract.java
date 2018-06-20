@@ -11,6 +11,7 @@ public interface INoticeDetailsContract {
         void showWriteDate(String date);
         void showModifyDate(String date);
         void showContent(String content);
+        void showAttachedFileButton(final boolean show);
         void showAttachedFileListView(final boolean show);
     }
 

@@ -79,7 +79,8 @@
                 android:id="@+id/notice_details_attached_file_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="첨부파일" />
+                android:text="첨부파일"
+                android:visibility="visible" />
 
             <ListView
                 android:id="@+id/notice_details_attached_file_listview"

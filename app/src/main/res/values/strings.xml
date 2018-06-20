@@ -34,7 +34,23 @@
     <string name="password_more_hint">비밀번호는 8~16자리, 영문대소문자, 숫자, 특수문자 필수</string>
 
     <!-- errors -->
-    <string name="error_not_connected_to_internet">인터넷에 연결되어있지 않습니다</string>
+    <string name="error_not_connected_to_internet">인터넷에 연결되어있지 않습니다.</string>
+    <string name="error_not_logged_in">로그인 되어있지 않습니다</string>
+    <string name="error_no_notice">공지가 없습니다.</string>
+    <string name="error_enter_reason">이유를 입력해주세요</string>
+    <string name="error_enter_correct_date">날짜를 제대로 입력해주세요</string>
+    <string name="error_register_field">제대로 빠짐없이 모두 입력해주세요</string>
+    <string name="error_name_empty">이름을 입력해주세요</string>
+    <string name="error_number_empty">번호를 입력해주세요</string>
+    <string name="error_number">1이상 20이하의 정수를 입력해주세요</string>
+    <string name="error_cellphone_empty">휴대폰 번호를 입력해주세요</string>
+    <string name="error_cellphone">"-"를 제거하고 11자의 숫자를 입력해주세요</string>
+    <string name="error_email_empty">이메일 주소를 입력해주세요</string>
+    <string name="error_email">대소고 이메일 포맷형식으로 입력해주세요</string>
+    <string name="error_password_empty">비밀번호를 입력해주세요</string>
+    <string name="error_password">비밀번호 포맷형식으로 입력해주세요</string>
+    <string name="error_confirm_password_empty">확인 비밀번호를 입력해주세요</string>
+    <string name="error_confirm_password_incorrect">비밀번호가 맞지 않습니다</string>
 
     <!-- Strings related to login -->
     <string name="sign_up">No account yet? Create One</string>

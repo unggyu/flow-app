@@ -3,6 +3,8 @@ package kr.hs.dgsw.flow.view.login.presenter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.application.FlowApplication;
 import kr.hs.dgsw.flow.data.model.EditData;
 import kr.hs.dgsw.flow.view.login.model.LoginData;
 import kr.hs.dgsw.flow.util.retrofit.model.signin.LoginRequestBody;
@@ -86,6 +88,12 @@ public class LoginPresenterImpl implements ILoginContract.Presenter {
 
     @Override
     public void attemptLogin(LoginRequestBody requestBody) {
+        if (!FlowApplication.getConnectivityStatus()) {
+            mView.showMessageToast(FlowApplication.getContext()
+                    .getString(R.string.error_not_connected_to_internet));
+            return;
+        }
+
         mView.showProgress(true);
 
         mLoginData.callSignIn(requestBody, new LoginData.LoginCallback() {

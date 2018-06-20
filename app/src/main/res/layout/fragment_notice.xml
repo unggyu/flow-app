@@ -6,11 +6,10 @@
     tools:context=".view.notice.NoticeFragment">
 
     <TextView
-        android:id="@+id/notice_none"
+        android:id="@+id/notice_notice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="공지가 없습니다."
         android:visibility="gone" />
 
     <ProgressBar
@@ -24,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/notice_swipe_refresh_layout">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/notice_recycler"
             android:layout_width="match_parent"

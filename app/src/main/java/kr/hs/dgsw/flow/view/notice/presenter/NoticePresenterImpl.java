@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.application.FlowApplication;
 import kr.hs.dgsw.flow.data.realm.login.LoginHelper;
 import kr.hs.dgsw.flow.data.realm.user.model.User;
 import kr.hs.dgsw.flow.util.FlowUtils;
@@ -55,7 +57,14 @@ public class NoticePresenterImpl implements INoticeContract.Presenter, OnItemCli
 
     @Override
     public void loadItems(final boolean isClear) {
+        if (!FlowApplication.getConnectivityStatus()) {
+            mView.showMessage(FlowApplication.getContext()
+                    .getString(R.string.error_not_connected_to_internet));
+            return;
+        }
+
         User loggedUser = mLoginHelper.getLoggedUser();
+
         mView.showProgress(true);
         Call<NoticeResponseBody> call = FlowUtils.getFlowService().getNotices(loggedUser.getToken());
         call.enqueue(new Callback<NoticeResponseBody>() {
@@ -88,13 +97,16 @@ public class NoticePresenterImpl implements INoticeContract.Presenter, OnItemCli
             mAdapterModel.clearItems();
         }
 
+        // 배열을 배열리스트로 변환
         ArrayList<ResponseNoticeItem> noticeItems =
                 new ArrayList<>(Arrays.asList(responseData.getNoticeItems()));
 
         mAdapterModel.addItems(noticeItems);
         mAdapterView.notifyAdapter();
+
         // 데이터가 없을 땐 없다고 텍스트뷰를 띄어줌
-        mView.showNoneNotice(noticeItems.size() <= 0);
+        mView.showMessage(noticeItems.size() <= 0 ?
+                FlowApplication.getContext().getString(R.string.error_no_notice) : null);
     }
 
     /**

@@ -1,7 +1,5 @@
 package kr.hs.dgsw.flow.view.meal.presenter;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 
@@ -33,13 +31,7 @@ public class MealPresenterImpl implements IMealContract.Presenter {
 
         this.mMealData = new MealData(year, month, day);
 
-        NetworkInfo networkState = FlowApplication.getNetworkInfo();
-        if (networkState.isConnected()) {
-            loadAndShow(year, month, day);
-        } else {
-            mView.showMessage(FlowApplication.getContext()
-                    .getString(R.string.error_not_connected_to_internet));
-        }
+        loadAndShow(year, month, day);
     }
 
     @Override
@@ -135,6 +127,12 @@ public class MealPresenterImpl implements IMealContract.Presenter {
 
     @Override
     public void loadAndShow(int year, int month, int day) {
+        if (!FlowApplication.getConnectivityStatus()) {
+            mView.showMessage(FlowApplication.getContext()
+                    .getString(R.string.error_not_connected_to_internet));
+            return;
+        }
+
         mView.showProgress(true);
         mMealData.loadMeal(year, month, new MealData.LoadCallback() {
             @Override
