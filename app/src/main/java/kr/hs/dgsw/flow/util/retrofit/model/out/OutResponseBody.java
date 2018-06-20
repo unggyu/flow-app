@@ -2,37 +2,16 @@ package kr.hs.dgsw.flow.util.retrofit.model.out;
 
 import com.google.gson.annotations.SerializedName;
 
-public class OutResponseBody {
+import kr.hs.dgsw.flow.util.retrofit.model.BaseResponseBody;
 
-    @SerializedName("status")
-    private int status;
-
-    @SerializedName("message")
-    private String message;
+public class OutResponseBody extends BaseResponseBody {
 
     @SerializedName("data")
     private ResponseData data;
 
     public OutResponseBody(int status, String message, ResponseData data) {
-        this.status = status;
-        this.message = message;
+        super(status, message);
         this.data = data;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public ResponseData getData() {

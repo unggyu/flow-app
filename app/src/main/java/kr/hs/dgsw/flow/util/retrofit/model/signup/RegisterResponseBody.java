@@ -1,30 +1,9 @@
 package kr.hs.dgsw.flow.util.retrofit.model.signup;
 
-public class RegisterResponseBody {
-    private int status;
-    private String message;
+import kr.hs.dgsw.flow.util.retrofit.model.BaseResponseBody;
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String toString() {
-        return "RegisterResponseBody{" +
-                "status=" + status +
-                ", message='" + message + '\'' +
-                '}';
+public class RegisterResponseBody extends BaseResponseBody {
+    public RegisterResponseBody(int status, String message) {
+        super(status, message);
     }
 }

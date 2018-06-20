@@ -71,6 +71,7 @@
                 android:id="@+id/notice_details_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="내용ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="18sp" />
