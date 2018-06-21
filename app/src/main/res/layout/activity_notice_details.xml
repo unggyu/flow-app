@@ -28,7 +28,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -40,9 +39,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingLeft="8dp">
 
                     <TextView
                         android:id="@+id/notice_details_writer"
@@ -71,7 +70,8 @@
                 android:id="@+id/notice_details_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="내용ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textSize="18sp" />
@@ -89,9 +89,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="invisible" />
-
         </LinearLayout>
     </ScrollView>
-
-
 </LinearLayout>
