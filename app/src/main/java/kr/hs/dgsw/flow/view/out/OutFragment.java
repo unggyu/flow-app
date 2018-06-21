@@ -17,6 +17,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.honorato.multistatetogglebutton.MultiStateToggleButton;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -37,8 +39,8 @@ public class OutFragment extends Fragment implements IOutContract.View {
 
     private IOutContract.Presenter mPresenter;
 
-    @BindView(R.id.out_radio_group)
-    public RadioGroup mRadioGroup;
+    @BindView(R.id.out_state_button)
+    public MultiStateToggleButton mOutStateButton;
 
     @BindView(R.id.out_out_date_time_text)
     public TextView mOutDateTimeView;
@@ -68,6 +70,10 @@ public class OutFragment extends Fragment implements IOutContract.View {
 
         ButterKnife.bind(this, view);
 
+        mOutStateButton.setElements(R.array.out, 0);
+        mOutStateButton.setOnValueChangedListener((value ->
+            mPresenter.onOutStateButtonValueChanged(OutType.values()[value])));
+
         return view;
     }
 
@@ -75,13 +81,7 @@ public class OutFragment extends Fragment implements IOutContract.View {
     public void onStart() {
         super.onStart();
         if (mPresenter == null) {
-            // 이 짓은 presenter가 null일 경우 해야함 왜냐하면 이렇기 때문이지
-            int defaultOutRadioButtonId = mRadioGroup.getCheckedRadioButtonId();
-            OutRadioButton outRadioButton = getView().findViewById(defaultOutRadioButtonId);
-            if (outRadioButton != null) {
-                // 기본 아웃타입을 인자값으로 넘겨줘야 하기 때문에 아웃라디오버튼이 존재할 경우 presenter 인스턴스화
-                mPresenter = new OutPresenterImpl(this, getContext(), outRadioButton.getOutType());
-            }
+            mPresenter = new OutPresenterImpl(this, getContext());
         } else {
             // presenter가 이미 존재 한다면 뷰에 다시 뿌려줌
             mPresenter.loadViewState();
@@ -115,12 +115,6 @@ public class OutFragment extends Fragment implements IOutContract.View {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @OnClick({ R.id.out_short_out, R.id.out_long_out })
-    public void onOutRadioButtonClick(View view) {
-        OutType outType = ((OutRadioButton) view).getOutType();
-        mPresenter.onOutRadioButtonClick(outType);
     }
 
     @OnClick(R.id.out_out_date_button)
@@ -215,12 +209,6 @@ public class OutFragment extends Fragment implements IOutContract.View {
     @Override
     public void focusReason() {
         mReasonLayout.requestFocus();
-    }
-
-    @Override
-    public void startOutMessagingService() {
-        Intent intent = new Intent(getContext(), FlowMessagingService.class);
-        getContext().startService(intent);
     }
 
     public interface OnFragmentInteractionListener {

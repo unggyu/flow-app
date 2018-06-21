@@ -18,14 +18,12 @@ public interface IOutContract {
         void setReasonErrorEnabled(final boolean enabled);
 
         void focusReason();
-
-        void startOutMessagingService();
     }
 
     interface Presenter extends BasePresenter<View> {
         void loadViewState();
 
-        void onOutRadioButtonClick(OutType outType);
+        void onOutStateButtonValueChanged(OutType outType);
         void onOutDateButtonClick();
         void onOutTimeButtonClick();
         void onInDateButtonClick();

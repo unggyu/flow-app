@@ -25,7 +25,7 @@ public class OutPresenterImpl implements IOutContract.Presenter {
 
     private OutData mOutData;
 
-    public OutPresenterImpl(@NonNull IOutContract.View view, @NonNull Context context, OutType outType) {
+    public OutPresenterImpl(@NonNull IOutContract.View view, @NonNull Context context) {
         mView = view;
 
         Calendar cal = Calendar.getInstance();
@@ -36,7 +36,7 @@ public class OutPresenterImpl implements IOutContract.Presenter {
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         int minute = cal.get(Calendar.MINUTE);
 
-        mOutData = new OutData(context, outType,
+        mOutData = new OutData(context, OutType.SHORT,
                 year, month, day, hour, minute,
                 year, month, day, hour, minute);
 
@@ -64,7 +64,7 @@ public class OutPresenterImpl implements IOutContract.Presenter {
     }
 
     @Override
-    public void onOutRadioButtonClick(OutType outType) {
+    public void onOutStateButtonValueChanged(OutType outType) {
         mOutData.setOutType(outType);
     }
 

@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:15.0.2'
     implementation 'com.google.firebase:firebase-messaging:15.0.2'
     implementation 'com.github.ceryle:SegmentedButton:v1.2.2'
+    implementation 'org.honorato.multistatetogglebutton:multistatetogglebutton:0.2.2'
 }
 
 apply plugin: 'com.google.gms.google-services'
