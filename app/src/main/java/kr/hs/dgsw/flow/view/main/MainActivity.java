@@ -1,8 +1,11 @@
 package kr.hs.dgsw.flow.view.main;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -12,9 +15,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kr.hs.dgsw.flow.R;
+import kr.hs.dgsw.flow.application.FlowApplication;
+import kr.hs.dgsw.flow.application.listener.OnPendingNotificationCountChanged;
 import kr.hs.dgsw.flow.data.realm.login.LoginHelper;
 import kr.hs.dgsw.flow.data.realm.out.OutHelper;
 import kr.hs.dgsw.flow.view.login.LoginActivity;
@@ -28,10 +36,11 @@ public class MainActivity extends AppCompatActivity
         implements MealFragment.OnFragmentInteractionListener,
         OutFragment.OnFragmentInteractionListener,
         NoticeFragment.OnFragmentInteractionListener,
-        BottomNavigationView.OnNavigationItemSelectedListener {
+        AHBottomNavigation.OnTabSelectedListener,
+        OnPendingNotificationCountChanged {
 
     @BindView(R.id.navigation)
-    public BottomNavigationView mNavigationView;
+    public AHBottomNavigation mNavigationView;
 
     private LoginHelper mLoginHelper;
     private OutHelper mOutHelper;
@@ -53,10 +62,25 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        mNavigationView.setOnNavigationItemSelectedListener(this);
+        FlowApplication.setOnPendingNotificationCountChangedListener(this);
+
+        AHBottomNavigationItem mealItem = new AHBottomNavigationItem(
+                R.string.title_meal, R.drawable.ic_restaurant_black, R.color.colorPrimary);
+        AHBottomNavigationItem outItem = new AHBottomNavigationItem(
+                R.string.title_out, R.drawable.ic_dashboard_black_24dp, R.color.colorPrimary);
+        AHBottomNavigationItem noticeItem = new AHBottomNavigationItem(
+                R.string.title_notifications, R.drawable.ic_notifications_black_24dp, R.color.colorPrimary);
+
+        mNavigationView.addItem(mealItem);
+        mNavigationView.addItem(outItem);
+        mNavigationView.addItem(noticeItem);
+
+        mNavigationView.setOnTabSelectedListener(this);
+
+        int pendingNotificationCount = FlowApplication.getPendingNotificationCount();
+        mNavigationView.setNotification(pendingNotificationCount, 2);
 
         Intent intent = getIntent();
-        int defaultItemId;
         String type = intent.getStringExtra("type");
         if (type != null) {
             // 백그라운드 메세징 서비스에서 넘어왔을 때
@@ -76,13 +100,13 @@ public class MainActivity extends AppCompatActivity
                     break;
                 case "notice":
                     // 공지인 경우 해당 프래그먼트로 이동
-                    mNavigationView.setSelectedItemId(R.id.navigation_notifications);
+                    mNavigationView.setCurrentItem(2);
                     break;
             }
         } else {
             // 포그라운드 메시징 서비스에서 넘어왔을 때
-            defaultItemId = intent.getIntExtra("defaultItemId", R.id.navigation_meal);
-            mNavigationView.setSelectedItemId(defaultItemId);
+            int item = intent.getIntExtra("defaultItem", 0);
+            mNavigationView.setCurrentItem(item);
         }
     }
 
@@ -104,6 +128,14 @@ public class MainActivity extends AppCompatActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        int item = intent.getIntExtra("defaultItem", 0);
+        mNavigationView.setCurrentItem(item);
     }
 
     /**
@@ -131,23 +163,30 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void transactionFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_frame, fragment);
-        transaction.commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_frame, fragment)
+                .commit();
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public void onFragmentInteraction(Uri uri) { }
+
+    @Override
+    public boolean onTabSelected(int position, boolean wasSelected) {
         Fragment selectedFragment = null;
-        switch (item.getItemId()) {
-            case R.id.navigation_meal:
+        switch (position) {
+            case 0:
                 selectedFragment = MealFragment.getInstance();
                 break;
-            case R.id.navigation_out:
+            case 1:
                 selectedFragment = OutFragment.getInstance();
                 break;
-            case R.id.navigation_notifications:
+            case 2:
                 selectedFragment = NoticeFragment.getInstance();
+
+                // 푸시 알림 카운트 초기화
+                FlowApplication.setPendingNotificationCount(0, true);
                 break;
         }
         transactionFragment(selectedFragment);
@@ -156,6 +195,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) { }
+    public void onPendingNotificationCountChanged(int count) {
+        new Thread() {
+            public void run() {
+                Message msg = pendingNotificationHandler.obtainMessage();
+                Bundle bundle = new Bundle();
+                bundle.putInt("count", count);
+                msg.setData(bundle);
+                pendingNotificationHandler.sendMessage(msg);
+            }
+        }.start();
+    }
+
+    @SuppressLint("HandlerLeak")
+    final Handler pendingNotificationHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            if (mNavigationView.getCurrentItem() != 2) {
+                mNavigationView.setNotification(msg.getData().getInt("count"), 2);
+            } else {
+                // 현재 공지 페이지일 때
+                FlowApplication.setPendingNotificationCount(0, false);
+                mNavigationView.setNotification(0, 2);
+            }
+        }
+    };
 }
 

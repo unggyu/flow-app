@@ -3,6 +3,7 @@ package kr.hs.dgsw.flow.view.ticket;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,20 +52,34 @@ public class TicketActivity extends AppCompatActivity {
         mLoginHelper = new LoginHelper(this);
         mOutHelper = new OutHelper(this);
 
-        User loggedInUser = mLoginHelper.getLoggedUser();
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
+        updateView();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        updateView();
+    }
+
+    public void updateView() {
         showProgress(true);
+
+        User loggedInUser = mLoginHelper.getLoggedUser();
+
         // 외출/외박 기록을 현재 로그인 되어있는 회원의 이메일을 이용하여 그 회원의 기록만 가져온다
         List<Out> outList = mOutHelper.getOutsByEmail(loggedInUser.getEmail());
+
         // 최신순으로 볼 수 있도록 리스트를 뒤집는다
         Collections.reverse(outList);
         mTicketAdapter = new TicketAdapter(this);
         mTicketAdapter.addItems((ArrayList<Out>) outList);
         mRecyclerView.setAdapter(mTicketAdapter);
+
         showProgress(false);
 
         // 기록이 없다면 없다고 표시

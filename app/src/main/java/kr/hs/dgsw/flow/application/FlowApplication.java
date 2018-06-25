@@ -5,9 +5,15 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import kr.hs.dgsw.flow.application.listener.OnPendingNotificationCountChanged;
+
 public class FlowApplication extends Application {
 
     private static Application sApplication;
+
+    private static int sPendingNotificationCount = 0;
+
+    private static OnPendingNotificationCountChanged sOnPendingNotificationCountChangedListener;
 
     @Override
     public void onCreate() {
@@ -22,6 +28,22 @@ public class FlowApplication extends Application {
 
     public static Context getContext() {
         return getApplication().getApplicationContext();
+    }
+
+    public static int getPendingNotificationCount() {
+        return sPendingNotificationCount;
+    }
+
+    public static void setPendingNotificationCount(int count, final boolean notify) {
+        sPendingNotificationCount = count;
+        if (sOnPendingNotificationCountChangedListener != null && notify) {
+            sOnPendingNotificationCountChangedListener.onPendingNotificationCountChanged(count);
+        }
+    }
+
+    public static void setOnPendingNotificationCountChangedListener(
+            OnPendingNotificationCountChanged onPendingNotificationCountChangedListener) {
+        sOnPendingNotificationCountChangedListener = onPendingNotificationCountChangedListener;
     }
 
     public static NetworkInfo getNetworkInfo() {
