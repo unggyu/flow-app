@@ -65,30 +65,32 @@ public class NoticePresenterImpl implements INoticeContract.Presenter, OnItemCli
 
         User loggedUser = mLoginHelper.getLoggedUser();
 
-        mView.showProgress(true);
-        Call<NoticeResponseBody> call = FlowUtils.getFlowService().getNotices(loggedUser.getToken());
-        call.enqueue(new Callback<NoticeResponseBody>() {
-            @Override
-            public void onResponse(Call<NoticeResponseBody> call, Response<NoticeResponseBody> response) {
-                mView.showProgress(false);
-                if (response.isSuccessful()) {
-                    NoticeResponseBody body = response.body();
-                    if (body.getStatus() == 200) {
-                        loadItems(response.body().getData(), isClear);
+        if (loggedUser != null) {
+            mView.showProgress(true);
+            Call<NoticeResponseBody> call = FlowUtils.getFlowService().getNotices(loggedUser.getToken());
+            call.enqueue(new Callback<NoticeResponseBody>() {
+                @Override
+                public void onResponse(Call<NoticeResponseBody> call, Response<NoticeResponseBody> response) {
+                    mView.showProgress(false);
+                    if (response.isSuccessful()) {
+                        NoticeResponseBody body = response.body();
+                        if (body.getStatus() == 200) {
+                            loadItems(response.body().getData(), isClear);
+                        } else {
+                            mView.showMessageToast(body.getStatus() + " error: " + body.getMessage());
+                        }
                     } else {
-                        mView.showMessageToast(body.getStatus() + " error: " + body.getMessage());
+                        mView.showMessageToast(response.code() + " error: " + response.code());
                     }
-                } else {
-                    mView.showMessageToast(response.code() + " error: " + response.code());
                 }
-            }
 
-            @Override
-            public void onFailure(Call<NoticeResponseBody> call, Throwable t) {
-                mView.showProgress(false);
-                mView.showMessageToast(t.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<NoticeResponseBody> call, Throwable t) {
+                    mView.showProgress(false);
+                    mView.showMessageToast(t.getMessage());
+                }
+            });
+        }
     }
 
     @Override

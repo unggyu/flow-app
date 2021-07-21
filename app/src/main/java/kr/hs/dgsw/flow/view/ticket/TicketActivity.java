@@ -71,19 +71,21 @@ public class TicketActivity extends AppCompatActivity {
 
         User loggedInUser = mLoginHelper.getLoggedUser();
 
-        // 외출/외박 기록을 현재 로그인 되어있는 회원의 이메일을 이용하여 그 회원의 기록만 가져온다
-        List<Out> outList = mOutHelper.getOutsByEmail(loggedInUser.getEmail());
+        if (loggedInUser != null) {
+            // 외출/외박 기록을 현재 로그인 되어있는 회원의 이메일을 이용하여 그 회원의 기록만 가져온다
+            List<Out> outList = mOutHelper.getOutsByEmail(loggedInUser.getEmail());
 
-        // 최신순으로 볼 수 있도록 리스트를 뒤집는다
-        Collections.reverse(outList);
-        mTicketAdapter = new TicketAdapter(this);
-        mTicketAdapter.addItems((ArrayList<Out>) outList);
-        mRecyclerView.setAdapter(mTicketAdapter);
+            // 최신순으로 볼 수 있도록 리스트를 뒤집는다
+            Collections.reverse(outList);
+            mTicketAdapter = new TicketAdapter(this);
+            mTicketAdapter.addItems((ArrayList<Out>) outList);
+            mRecyclerView.setAdapter(mTicketAdapter);
+        }
 
         showProgress(false);
 
         // 기록이 없다면 없다고 표시
-        if (mTicketAdapter.getItemCount() <= 0) {
+        if (loggedInUser != null && mTicketAdapter.getItemCount() <= 0) {
             showNoneOut(true);
         } else {
             showNoneOut(false);
